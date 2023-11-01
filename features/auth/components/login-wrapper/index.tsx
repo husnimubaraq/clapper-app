@@ -2,7 +2,7 @@ import React from "react";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from 'react-query'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Text, View, SafeAreaView, TouchableOpacity } from "react-native";
+import { Text, View, SafeAreaView, TouchableOpacity, Image } from "react-native";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 
 import { useToastContext } from "contexts";
@@ -42,17 +42,20 @@ const LoginWrapper = () => {
   return (
     <SafeAreaView style={{ flex: 1, top: containerInsets.top }}>
       <SafeAreaProvider>
-        <View className="flex-1 bg-white">
+        <View className="flex-1 bg-[#1B4C60A6]">
           <View className="my-[20%] items-center">
-            <View className="w-[100px] h-[100px] items-center justify-center rounded-full bg-[#f5f5f5]">
-              <Text className="text-base">Logo</Text>
-            </View>
+            <Image
+              source={require('assets/images/logo.png')}
+              className="w-[134px] h-[128px]"
+            />
+            <Text className="text-2xl mt-5 font-bold text-white">E KENTONGAN  KLODRAN CITY</Text>
           </View>
 
-          <View className="w-full px-5">
+          <View className="px-5 bg-[#C4C4C4D9] mx-5 py-5 rounded-xl">
+            <Text className="text-center">LOGIN  APLIKASI</Text>
+
             <FormProvider {...formMethods}>
               <Input
-                label="No HP"
                 name="phone"
                 placeholder="Input no HP"
                 containerClassName="mb-5"
@@ -61,7 +64,6 @@ const LoginWrapper = () => {
               />
 
               <InputPassword
-                label="Password"
                 name="password"
               />
 
