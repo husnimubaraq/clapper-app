@@ -1,0 +1,39 @@
+import { Text, TouchableOpacity } from 'react-native'
+import React, { PropsWithChildren  } from 'react'
+
+import { variants } from './data'
+import { TProps } from './type'
+import { twMerge } from 'tailwind-merge'
+
+export const Button = (props: PropsWithChildren<TProps>) => {
+    const { 
+        title, 
+        children, 
+        className, 
+        classNameText, 
+        onPress,
+        variant = 'primary',
+        style,
+        disabled
+    } = props
+
+    return (
+        <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={onPress}
+            className={twMerge(
+                ` h-12 items-center justify-center rounded-md px-4 py-2  ${variants[variant]} ${className}`,
+                disabled && variants['disabled']
+            )}
+            style={style}
+        >
+            {children ? children : (
+                <Text 
+                    className={`text-lg font-semibold text-white ${classNameText}`}
+                >
+                    {title}
+                </Text>
+            )}
+        </TouchableOpacity>
+    )
+}
