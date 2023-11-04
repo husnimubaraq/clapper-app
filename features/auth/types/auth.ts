@@ -1,7 +1,6 @@
 export type TLoginRequest = {
-    phone: string
+    username: string
     password: string
-    token_device: string
 }
 
 export type TAuth = {

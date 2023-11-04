@@ -1,41 +1,43 @@
 import React from "react"
-import { Text, TouchableOpacity, View } from "react-native"
+import { TouchableOpacity, View } from "react-native"
 import {twMerge} from 'tailwind-merge'
 
-import { ChevronLeftIcon } from "components/icons"
+import { BellIcon, ChevronLeftIcon } from "components/icons"
 
 import { TProps } from "./type"
-import { variants } from "./data"
 import { colors } from "themes"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigation } from "types/navigator"
+import { Text } from "components/base"
 
 export const Header = (props: TProps) => {
     const { 
-        title, onBack, 
-        variant = 'default',
-        rightComponent
+        title, 
+        onBack, 
+        rightComponent,
     } = props
+
+    const { goBack } = useNavigation<StackNavigation>()
 
     return (
         <View 
             className={twMerge(
-                'py-3 bg-white mb-2 flex-row items-center justify-between',
-                variants[variant].background
+                'py-5 bg-white flex-row items-center px-5',
             )}
         >
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
-                    onBack()
+                    onBack ? onBack() : goBack()
                 }}
                 className='mr-2'
             >
-                <ChevronLeftIcon color={variants[variant].text} />
+                <ChevronLeftIcon width={20} height={20} color={colors.text} />
             </TouchableOpacity>
 
             <Text 
-                className={twMerge(
-                    'mr-5 text-base font-medium',
-                    variants[variant].text
+                textClassName={twMerge(
+                    'ml-3 text-lg text-black',
                 )}
             >
                 {title}

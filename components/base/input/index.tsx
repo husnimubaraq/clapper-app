@@ -1,9 +1,10 @@
 import { useId } from 'react'
 import { useFormContext, get, Controller } from 'react-hook-form'
 import { TProps } from './type'
-import { Text, TextInput, View } from 'react-native'
+import { TextInput, View } from 'react-native'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
+import { Text } from 'components/base'
 
 export const Input = <TFormValues extends Record<string, unknown>>(
     props: TProps<TFormValues>
@@ -40,7 +41,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
         )}>
             {label && (
                 <Text
-                    className={twMerge(
+                    textClassName={twMerge(
                         'mb-2 text-md font-medium text-[#848484]',
                         labelClassName
                     )}
@@ -51,14 +52,14 @@ export const Input = <TFormValues extends Record<string, unknown>>(
 
             <View
                 className={twMerge(
-                    'h-12 rounded-[5px] flex-row border border-[#848484]',
-                    className
+                    'h-12 flex-row bg-white items-center rounded-md',
+                    className,
                 )}
             >
                 {leftNode && (
                     <View
                         className={twMerge(
-                            'h-full px-4 py-3',
+                            'h-full pl-4 py-3',
                             leftNodeClassName
                         )}
                     >
@@ -76,6 +77,9 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                                 'border-0 px-4 py-3 text-md text-black flex-1',
                                 inputClassName
                             )}
+                            style={{
+                                fontFamily: 'Montserrat-Regular'
+                            }}
                             onChangeText={field.onChange}
                             autoCapitalize='none'
                             {...rest}
@@ -86,7 +90,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                 {rightNode && (
                     <View
                         className={twMerge(
-                            'h-full bg-white px-4 py-3 ',
+                            'h-full px-4 py-3',
                             rightNodeClassName
                         )}
                     >
@@ -95,9 +99,9 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                 )}
             </View>
 
-            {hint && <Text className="text-sm italic text-[#DF0000]">{hint}</Text>}
+            {hint && <Text textClassName="text-md text-[#DF0000]">{hint}</Text>}
             {error && (
-                <Text className="text-sm italic text-[#DF0000]">
+                <Text textClassName="text-md text-[#DF0000]">
                     {error?.message?.toString()}
                 </Text>
             )}
