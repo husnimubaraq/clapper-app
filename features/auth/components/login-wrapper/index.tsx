@@ -50,7 +50,7 @@ const LoginWrapper = () => {
                 source={require('assets/images/logo.png')}
                 className="w-[134px] h-[128px]"
               />
-              <Text textClassName="text-2xl mt-5 font-bold text-white">E KENTONGAN  KLODRAN CITY</Text>
+              <Text textClassName="text-2xl mt-5 text-white" variant="bold">E KENTONGAN  KLODRAN CITY</Text>
             </View>
 
             <View className="px-5 bg-[#C4C4C4D9] mx-5 pt-5 pb-6 rounded-xl">
@@ -88,7 +88,10 @@ const LoginWrapper = () => {
 
                   <View className="item-center">
                     <Text textClassName="text-center">Lupa password?</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => navigate('ResetPassword')}
+                    >
                       <Text textClassName="text-[#215096] text-center">Reset</Text>
                     </TouchableOpacity>
                   </View>
