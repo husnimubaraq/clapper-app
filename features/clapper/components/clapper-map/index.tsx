@@ -1,19 +1,24 @@
 import { useMutation } from "react-query";
-import React, { LegacyRef, useEffect, useRef, useState } from "react";
+import React, { LegacyRef, useEffect, useMemo, useRef, useState } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { VH, VW } from "utils";
 import MapView, { Marker, Region } from "react-native-maps";
 import * as Location from 'expo-location';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Text } from "components/base";
+import { colors } from "themes";
 
 const ASPECT_RATIO = VW / VH;
 const LATITUDE = -7.801335145093938;
 const LONGITUDE = 110.36480164512592;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.0052;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export const ClapperMap = () => {
     const map = useRef<any>();
+    const bottomSheetRef = useRef<BottomSheet>(null);
+    const snapPoints = useMemo(() => ['65%', '70%'], []);
 
     const [region, setRegion] = useState<Region>({
         latitude: LATITUDE,
@@ -48,23 +53,57 @@ export const ClapperMap = () => {
     const containerInsets = useSafeAreaInsets()
 
     return (
-        <View>
-            {location && (
-                <MapView
-                    ref={map}
-                    style={styles.map}
-                    initialRegion={region}
-                >
-                    <Marker
-                        coordinate={{
-                            latitude: location?.coords.latitude ?? 0,
-                            longitude: location?.coords.longitude ?? 0
-                        }}
-                        pinColor='red'
-                    />
-                </MapView>
-            )}
-        </View>
+        <>
+            <View>
+                {location && (
+                    <MapView
+                        ref={map}
+                        style={styles.map}
+                        initialRegion={region}
+                    >
+                        <Marker
+                            coordinate={{
+                                latitude: location?.coords.latitude ?? 0,
+                                longitude: location?.coords.longitude ?? 0
+                            }}
+                            pinColor='red'
+                        />
+                    </MapView>
+                )}
+            </View>
+            <BottomSheet
+                ref={bottomSheetRef}
+                index={1}
+                snapPoints={snapPoints}
+                handleIndicatorStyle={{
+                    backgroundColor: colors.background
+                }}
+                backgroundStyle={{
+                    backgroundColor: '#1B4C60'
+                }}
+                //@ts-ignore
+                headerComponent={
+                    <View
+                    style={{
+                      backgroundColor: 'black',
+                      height: 50,
+                      width: '50%',
+                      position: 'absolute',
+                      top: -70,
+                      right: 0,
+                      left: 0,
+                      zIndex: 1000
+                    }}
+                  >
+                    
+                  </View>
+                }
+            >
+                <View className="flex-1 bg-[#1B4C60]">
+                    <Text>Awesome 🎉</Text>
+                </View>
+            </BottomSheet>
+        </>
     );
 };
 
@@ -74,6 +113,6 @@ const styles = StyleSheet.create({
     },
     map: {
         width: '100%',
-        height: '100%'
+        height: '60%'
     },
 });
