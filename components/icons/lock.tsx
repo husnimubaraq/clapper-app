@@ -10,9 +10,9 @@ export const LockIcon = (props: TProps) => {
 
     return (
         <Svg
-            width={12}
-            height={16}
-            viewBox="0 0 12 16"
+            width={22}
+            height={25}
+            viewBox="0 0 22 25"
             fill="none"
             {...props}>
             <G clipPath="url(#clip0_1302_771)">

@@ -6,4 +6,8 @@ export type TProps<TFormValues extends FieldValues> = {
   id?: string
   name: Path<TFormValues>
   label?: string
+  leftNode?: ReactNode
+  leftNodeClassName?: string
+  rightNodeClassName?: string
+  className?: string
 }

@@ -1,9 +1,10 @@
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import React, { PropsWithChildren  } from 'react'
 
 import { variants } from './data'
 import { TProps } from './type'
 import { twMerge } from 'tailwind-merge'
+import { Text } from 'components/base'
 
 export const Button = (props: PropsWithChildren<TProps>) => {
     const { 
@@ -28,8 +29,8 @@ export const Button = (props: PropsWithChildren<TProps>) => {
             style={style}
         >
             {children ? children : (
-                <Text 
-                    className={`text-lg font-semibold text-white ${classNameText}`}
+                <Text
+                    textClassName={`text-lg font-bold text-white ${classNameText}`}
                 >
                     {title}
                 </Text>
