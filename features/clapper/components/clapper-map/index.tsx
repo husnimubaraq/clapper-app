@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { Text } from "components/base";
 import { colors } from "themes";
+import { CategoryList, ClapperHeader } from "features/clapper";
 
 const ASPECT_RATIO = VW / VH;
 const LATITUDE = -7.801335145093938;
@@ -83,24 +84,11 @@ export const ClapperMap = () => {
                 }}
                 //@ts-ignore
                 headerComponent={
-                    <View
-                    style={{
-                      backgroundColor: 'black',
-                      height: 50,
-                      width: '50%',
-                      position: 'absolute',
-                      top: -70,
-                      right: 0,
-                      left: 0,
-                      zIndex: 1000
-                    }}
-                  >
-                    
-                  </View>
+                    <ClapperHeader/>
                 }
             >
                 <View className="flex-1 bg-[#1B4C60]">
-                    <Text>Awesome 🎉</Text>
+                    <CategoryList/>
                 </View>
             </BottomSheet>
         </>
