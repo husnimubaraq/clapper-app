@@ -22,7 +22,7 @@ export const Header = (props: TProps) => {
     return (
         <View 
             className={twMerge(
-                'py-5 bg-white flex-row items-center px-5',
+                'py-5 bg-[#1B4C60A6] flex-row items-center justify-between px-5',
             )}
         >
             <TouchableOpacity
@@ -32,12 +32,12 @@ export const Header = (props: TProps) => {
                 }}
                 className='mr-2'
             >
-                <ChevronLeftIcon width={20} height={20} color={colors.text} />
+                <ChevronLeftIcon width={20} height={20} color={colors.background} />
             </TouchableOpacity>
 
             <Text 
                 textClassName={twMerge(
-                    'ml-3 text-lg text-black',
+                    'ml-3 text-lg text-white font-medium',
                 )}
             >
                 {title}

@@ -5,7 +5,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-cont
 import { HomeHeader, News } from "features/home";
 import { VH } from "utils";
 
-const HomeWrapper = () => {
+const ProfileWrapper = () => {
 
   const containerInsets = useSafeAreaInsets()
 
@@ -15,13 +15,11 @@ const HomeWrapper = () => {
         <View 
           className="flex-1 bg-[#E4ECEF]"
         >
-          <HomeHeader/>
 
-          <News/>
         </View>
       </SafeAreaProvider>
     </SafeAreaView>
   );
 };
 
-export default HomeWrapper
+export default ProfileWrapper

@@ -1,11 +1,11 @@
 import { useMutation } from "react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import { SafeAreaView, View, StyleSheet } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
-import { HomeHeader, News } from "features/home";
 import { VH } from "utils";
+import { ClapperMap } from 'features/clapper'
 
-const HomeWrapper = () => {
+const ClapperWrapper = () => {
 
   const containerInsets = useSafeAreaInsets()
 
@@ -15,13 +15,11 @@ const HomeWrapper = () => {
         <View 
           className="flex-1 bg-[#E4ECEF]"
         >
-          <HomeHeader/>
-
-          <News/>
+          <ClapperMap/>
         </View>
       </SafeAreaProvider>
     </SafeAreaView>
   );
 };
 
-export default HomeWrapper
+export default ClapperWrapper

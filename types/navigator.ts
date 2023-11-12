@@ -1,19 +1,24 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { NavigationProp } from "@react-navigation/native";
 import { 
-    TForgotPasswordRequest, 
-    TForgotPasswordOtpRequest,
-    TRegisterOtpRequest, 
     TRegisterRequest 
 } from "features/auth";
 
 export type RootStackParamList = {
     Main: undefined;
-    Home: undefined;
     Login: undefined;
     Register: undefined;
-    Verification: TRegisterRequest & TForgotPasswordRequest;
-    CreatePassword: TRegisterOtpRequest & TForgotPasswordOtpRequest;
-    ForgotPassword: undefined;
+    ResetPassword: undefined;
+    BottomTab: undefined
+    Clapper: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
+
+export type BottomTabParamList = {
+    Home: undefined;
+    Center: undefined;
+    Profile: undefined;
+};
+
+export type BottomTabNavigation = BottomTabNavigationProp<BottomTabParamList>;

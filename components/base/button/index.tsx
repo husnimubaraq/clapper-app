@@ -30,7 +30,8 @@ export const Button = (props: PropsWithChildren<TProps>) => {
         >
             {children ? children : (
                 <Text
-                    textClassName={`text-lg font-bold text-white ${classNameText}`}
+                    textClassName={`text-lg text-white ${classNameText}`}
+                    variant="medium"
                 >
                     {title}
                 </Text>
