@@ -6,9 +6,12 @@ import { VH, VW } from "utils";
 import { TCategory, categories } from 'features/clapper'
 import { BackspaceIcon, LocationIcon } from "components/icons";
 import { colors, spacing } from "themes";
-import { Text } from "components/base";
+import { MessagePopup, Text } from "components/base";
 
 export const CategoryList = () => {
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [selected, setSelected] = useState<TCategory | null>(null)
 
   const containerInsets = useSafeAreaInsets()
 
@@ -16,6 +19,10 @@ export const CategoryList = () => {
     <TouchableOpacity
         activeOpacity={0.8}
         className="mb-5 px-2"
+        onPress={() => {
+          setSelected(item)
+          setIsOpen(true)
+        }}
     >
         <Image
             source={{uri: item.image_url}}
@@ -32,7 +39,8 @@ export const CategoryList = () => {
   ), [])
 
   return (
-    <FlatList
+    <>
+      <FlatList
         data={categories}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderItem}
@@ -41,6 +49,14 @@ export const CategoryList = () => {
             paddingHorizontal: spacing.medium,
             paddingTop: spacing.medium
         }}
-    />
+      />
+
+      <MessagePopup
+        isOpen={isOpen}
+        onCancel={setIsOpen}
+        title="Sukses"
+        message="Terimakasih, Aduan anda berhasil disimpan. Silahkan tunggu tanggapan dari warga !"
+      />
+    </>
   );
 };

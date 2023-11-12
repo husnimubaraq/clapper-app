@@ -31,7 +31,7 @@ export const ClapperHeader = () => {
                 activeOpacity={0.8}
                 className="bg-[#1B4C60] rounded-full items-center justify-center h-[40px] w-[40px]"
             >
-                <LocationIcon color={colors.background} />
+                <LocationIcon width={24} height={24} className="mr-1" color={colors.background} />
             </TouchableOpacity>
         </View>
     </View>
