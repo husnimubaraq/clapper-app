@@ -1,6 +1,7 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import messaging from '@react-native-firebase/messaging';
 
 import { BottomTabParamList, RootStackParamList, StackNavigation } from 'types';
 import LoginWrapper from 'features/auth/components/login-wrapper'
@@ -15,15 +16,94 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'components/base';
 import { colors, spacing } from 'themes';
 import { FingerprintIcon, HomeIcon, UserIcon } from 'components/icons';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import { useAuthStore } from 'stores';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabStack = createBottomTabNavigator<BottomTabParamList>();
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+    }),
+});
+
 
 const BottomTabNavigator = () => {
     const { Navigator, Screen } = TabStack
 
     const { navigate } = useNavigation<StackNavigation>()
+
+    const setToken = useAuthStore((state: any) => state.setToken)
+
+    const schedulePushNotification = async () => {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "You've got mail! 📬",
+            body: 'Here is the notification body',
+            data: { data: 'goes here' },
+            sound: 'suara2.mp3',
+            vibrate: [0, 250, 250, 250]
+          },
+          trigger: { 
+            seconds: 2,
+            channelId: 'sound_channel',
+          },
+        });
+    }
+
+    const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+            
+            const token = await messaging().getToken()
+
+            console.log('token: ', token)
+
+            setToken(token)
+        }
+
+    }
+
+    useEffect(() => {
+        requestUserPermission()
+
+        // Check whether an initial notification is available
+        messaging().getInitialNotification().then(remoteMessage => {
+            if (remoteMessage) {
+                console.log('getInitialNotification: ', remoteMessage)
+            }
+        });
+
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log('onNotificationOpenedApp: ', remoteMessage)
+        });
+
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+            console.log('setBackgroundMessageHandler: ', remoteMessage)
+        });
+
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+            console.log('onMessage: ', remoteMessage)
+            schedulePushNotification()
+        });
+
+        return unsubscribe;
+
+    }, [])
+
+
+    // useEffect(() => {
+    //     init()
+
+    // }, [])
 
     return (
         <Navigator
@@ -39,26 +119,26 @@ const BottomTabNavigator = () => {
                     fontFamily: 'Montserrat-Light',
                     fontSize: 12
                 },
-                tabBarLabel: ({children, color}) => (
+                tabBarLabel: ({ children, color }) => (
                     <Text variant='normal' color={color}>{children}</Text>
                 ),
             }}
         >
-            <Screen 
-                name='Home' 
+            <Screen
+                name='Home'
                 options={{
-                    headerShown: false, 
+                    headerShown: false,
                     title: 'Home',
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <HomeIcon color={color} />
                     ),
-                }} 
-                component={HomeWrapper} 
+                }}
+                component={HomeWrapper}
             />
-            <Screen 
-                name='Center' 
+            <Screen
+                name='Center'
                 options={{
-                    headerShown: false, 
+                    headerShown: false,
                     title: 'Data Saya',
                     tabBarIcon: () => (
                         <TouchableOpacity
@@ -73,19 +153,19 @@ const BottomTabNavigator = () => {
                         position: 'absolute',
                         top: -15,
                     }
-                }} 
-                component={() => null} 
+                }}
+                component={() => null}
             />
-            <Screen 
-                name='Profile' 
+            <Screen
+                name='Profile'
                 options={{
-                    headerShown: false, 
+                    headerShown: false,
                     title: 'Akun Saya',
-                    tabBarIcon: ({color}) => (
+                    tabBarIcon: ({ color }) => (
                         <UserIcon color={color} />
                     )
-                }} 
-                component={ProfileWrapper} 
+                }}
+                component={ProfileWrapper}
             />
         </Navigator>
     )
@@ -93,17 +173,17 @@ const BottomTabNavigator = () => {
 
 export const Navigation = () => {
     const { Navigator, Screen } = RootStack
-    
+
     return (
         <NavigationContainer>
             <Navigator
                 initialRouteName={'BottomTab'}
             >
-                <Screen name='BottomTab' options={{headerShown: false}} component={BottomTabNavigator} />
-                <Screen name='Login' options={{headerShown: false}}  component={LoginWrapper} />
-                <Screen name='Register' options={{headerShown: false}}  component={RegisterWrapper} />
-                <Screen name='ResetPassword' options={{headerShown: false}}  component={ResetPasswordWrapper} />
-                <Screen name='Clapper' options={{headerShown: false}}  component={ClapperWrapper} />
+                <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
+                <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
+                <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
+                <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
+                <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
             </Navigator>
         </NavigationContainer>
     );

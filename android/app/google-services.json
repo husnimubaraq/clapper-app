@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "962279455498",
+    "project_id": "clapper-app",
+    "storage_bucket": "clapper-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962279455498:android:dba9a49e0bb292c18618f3",
+        "android_client_info": {
+          "package_name": "com.husni.clapper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU-1wypkzpsuZI176No0LIeiHgntAZ5SA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
