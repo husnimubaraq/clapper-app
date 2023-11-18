@@ -39,8 +39,8 @@
           "icon": "./assets/icon.png",
           "color": "#ffffff",
           "sounds": [
-            "./assets/sounds/suara1.wav",
-            "./assets/sounds/suara2.wav"
+            "./assets/sounds/suara1.mp3",
+            "./assets/sounds/suara2.mp3"
           ]
         }
       ]

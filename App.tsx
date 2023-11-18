@@ -3,11 +3,25 @@ import { AppWrapper } from "layouts/default";
 import { LogBox, View } from "react-native";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import 'firebaseConfig'
+// import 'firebaseConfig'
+import firebase from '@react-native-firebase/app';
 
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreAllLogs()
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBU-1wypkzpsuZI176No0LIeiHgntAZ5SA',
+  authDomain: 'clapper-app.firebaseapp.com',
+  databaseURL: 'https://clapper-app.firebaseio.com',
+  projectId: 'clapper-app',
+  storageBucket: 'clapper-app.appspot.com',
+  messagingSenderId: '962279455498',
+  appId: '1:962279455498:android:dba9a49e0bb292c18618f3'
+};
+
+!firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()
+
 
 function IgniteApp() {
 

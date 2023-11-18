@@ -22,7 +22,7 @@ export const CategoryList = () => {
         title: "You've got mail! 📬",
         body: 'Here is the notification body',
         data: { data: 'goes here' },
-        sound: 'suara1.wav',
+        sound: 'suara1.mp3',
         vibrate: [0, 250, 250, 250]
       },
       trigger: { 

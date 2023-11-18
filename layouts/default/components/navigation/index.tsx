@@ -1,6 +1,7 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useRef, useState } from 'react'
+import messaging from '@react-native-firebase/messaging';
 
 import { BottomTabParamList, RootStackParamList, StackNavigation } from 'types';
 import LoginWrapper from 'features/auth/components/login-wrapper'
@@ -17,6 +18,7 @@ import { colors, spacing } from 'themes';
 import { FingerprintIcon, HomeIcon, UserIcon } from 'components/icons';
 import { Platform, TouchableOpacity } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import { useAuthStore } from 'stores';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabStack = createBottomTabNavigator<BottomTabParamList>();
@@ -30,75 +32,73 @@ Notifications.setNotificationHandler({
 });
 
 
-async function registerForPushNotificationsAsync() {
-    let token;
-
-    if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('new-emails', {
-            name: 'new-emails',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-            enableVibrate: true,
-            sound: 'suara1.wav'
-        });
-    }
-
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-    }
-    // Learn more about projectId:
-    // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
-    token = (await Notifications.getDevicePushTokenAsync()).data;
-    console.log(token);
-
-    return token;
-}
-
-
 const BottomTabNavigator = () => {
     const { Navigator, Screen } = TabStack
 
     const { navigate } = useNavigation<StackNavigation>()
 
-    const notificationListener = useRef<any>();
-    const responseListener = useRef<any>();
+    const setToken = useAuthStore((state: any) => state.setToken)
 
-    const [expoPushToken, setExpoPushToken] = useState<any>('');
-    const [notification, setNotification] = useState<any>(null);
+    const schedulePushNotification = async () => {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "You've got mail! 📬",
+            body: 'Here is the notification body',
+            data: { data: 'goes here' },
+            sound: 'suara2.mp3',
+            vibrate: [0, 250, 250, 250]
+          },
+          trigger: { 
+            seconds: 2,
+            channelId: 'sound_channel',
+          },
+        });
+    }
 
-    const init = async () => {
-        const token = (await Notifications.getDevicePushTokenAsync()).data;
+    const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-        console.log('token: ', token)
+        if (enabled) {
+            
+            const token = await messaging().getToken()
+
+            console.log('token: ', token)
+
+            setToken(token)
+        }
+
     }
 
     useEffect(() => {
-        registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+        requestUserPermission()
 
-        notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-            setNotification(notification);
+        // Check whether an initial notification is available
+        messaging().getInitialNotification().then(remoteMessage => {
+            if (remoteMessage) {
+                console.log('getInitialNotification: ', remoteMessage)
+            }
         });
 
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log('onNotificationOpenedApp: ', remoteMessage)
         });
 
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        };
-    }, []);
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+            console.log('setBackgroundMessageHandler: ', remoteMessage)
+        });
 
-    console.log('expoPushToken: ', expoPushToken)
-    console.log('notification: ', notification)
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+            console.log('onMessage: ', remoteMessage)
+            schedulePushNotification()
+        });
+
+        return unsubscribe;
+
+    }, [])
+
 
     // useEffect(() => {
     //     init()
