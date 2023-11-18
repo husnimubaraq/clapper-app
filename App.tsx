@@ -3,6 +3,7 @@ import { AppWrapper } from "layouts/default";
 import { LogBox, View } from "react-native";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import 'firebaseConfig'
 
 SplashScreen.preventAutoHideAsync();
 

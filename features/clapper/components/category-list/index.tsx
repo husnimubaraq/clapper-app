@@ -7,6 +7,7 @@ import { TCategory, categories } from 'features/clapper'
 import { BackspaceIcon, LocationIcon } from "components/icons";
 import { colors, spacing } from "themes";
 import { MessagePopup, Text } from "components/base";
+import * as Notifications from 'expo-notifications';
 
 export const CategoryList = () => {
 
@@ -15,26 +16,43 @@ export const CategoryList = () => {
 
   const containerInsets = useSafeAreaInsets()
 
-  const renderItem = useCallback<ListRenderItem<TCategory>>(({item}) => (
-    <TouchableOpacity
-        activeOpacity={0.8}
-        className="mb-5 px-2"
-        onPress={() => {
-          setSelected(item)
-          setIsOpen(true)
-        }}
-    >
-        <Image
-            source={{uri: item.image_url}}
-            className=" shadow-md"
-            style={{
-                height: VW / 3.5,
-                width: VW / 4
-            }}
-            borderRadius={5}
-        />
+  const schedulePushNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "You've got mail! 📬",
+        body: 'Here is the notification body',
+        data: { data: 'goes here' },
+        sound: 'suara1.wav',
+        vibrate: [0, 250, 250, 250]
+      },
+      trigger: { 
+        seconds: 2,
+        channelId: 'new-emails',
+      },
+    });
+  }
 
-        <Text textClassName="text-white font-medium text-base mt-3 text-center">{item.title}</Text>
+  const renderItem = useCallback<ListRenderItem<TCategory>>(({ item }) => (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      className="mb-5 px-2"
+      // onPress={() => {
+      //   setSelected(item)
+      //   setIsOpen(true)
+      // }}
+      onPress={schedulePushNotification}
+    >
+      <Image
+        source={{ uri: item.image_url }}
+        className=" shadow-md"
+        style={{
+          height: VW / 3.5,
+          width: VW / 4
+        }}
+        borderRadius={5}
+      />
+
+      <Text textClassName="text-white font-medium text-base mt-3 text-center">{item.title}</Text>
     </TouchableOpacity>
   ), [])
 
@@ -46,8 +64,8 @@ export const CategoryList = () => {
         renderItem={renderItem}
         numColumns={3}
         contentContainerStyle={{
-            paddingHorizontal: spacing.medium,
-            paddingTop: spacing.medium
+          paddingHorizontal: spacing.medium,
+          paddingTop: spacing.medium
         }}
       />
 
