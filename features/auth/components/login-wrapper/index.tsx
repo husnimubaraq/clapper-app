@@ -25,6 +25,7 @@ const LoginWrapper = () => {
   const { dispatch, navigate } = useNavigation<StackNavigation>()
 
   const setToken = useAuthStore((state: any) => state.setToken)
+  const setAuthState = useAuthStore((state: any) => state.setAuthState)
 
   const { showToast } = useToastContext()
 
@@ -39,15 +40,23 @@ const LoginWrapper = () => {
   const { mutate, isLoading } = useMutation({
     mutationFn: (params: TLoginRequest) => loginRequest(params),
     onSuccess: async (data: TLogin) => {
-      
-      setToken(data.token)
-      console.log('token: ', data.token)
 
       const decoded = jwtDecode(data.token, {
         header: false
       });
 
-      console.log('decoded: ', decoded)
+      setToken(data.token)
+      setAuthState(decoded)
+
+      dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: 'BottomTab' },
+          ],
+        })
+      );
+
     },
     onError: (error: any) => {
       showToast(error.pesan, 'error')

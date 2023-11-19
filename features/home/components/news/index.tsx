@@ -9,11 +9,15 @@ import { useNavigation } from "@react-navigation/native"
 import { StackNavigation } from "types/navigator"
 import { Text } from "components/base"
 import { VH, VW } from "utils"
-import { TNews, NewsItem, news } from "features/home"
+import { TNews, NewsItem, news, useGetNews } from "features/home"
 
 export const News = () => {
 
     const { navigate } = useNavigation<StackNavigation>()
+    
+    const { data } = useGetNews()
+
+    console.log('data: ', data)
 
     const renderItem = useCallback<ListRenderItem<TNews>>(({ item }) => (
         <NewsItem
@@ -34,7 +38,7 @@ export const News = () => {
             </View>
 
             <FlatList
-                data={news}
+                data={data?.data}
                 renderItem={renderItem}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}

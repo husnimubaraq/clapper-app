@@ -7,7 +7,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 
 import { useToastContext } from "contexts";
 import { Button, Input, Text } from "components/base";
-import { TLoginRequest, TResetPasswordRequest, loginRequest } from "features/auth";
+import { TLoginRequest, TResetPasswordRequest, loginRequest, resetPasswordRequest } from "features/auth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { schemaValidation } from './validation'
@@ -19,7 +19,7 @@ import { colors } from "themes";
 import { CardIcon, CheckIcon, LockIcon, MainIcon, PhoneIcon } from "components/icons";
 
 const ResetPasswordWrapper = () => {
-    const { dispatch, navigate } = useNavigation<StackNavigation>()
+    const { goBack, navigate } = useNavigation<StackNavigation>()
 
     const { showToast } = useToastContext()
 
@@ -27,14 +27,26 @@ const ResetPasswordWrapper = () => {
         resolver: zodResolver(schemaValidation),
         defaultValues: {
             email: '',
-            phone: '',
+            username: '',
         }
+    })
+
+    const { mutate, isLoading } = useMutation({
+        mutationFn: (params: TResetPasswordRequest) => resetPasswordRequest(params),
+        onSuccess: async (data) => {
+            showToast(data.pesan, 'success')
+            goBack()
+        },
+        onError: (error: any) => {
+            showToast(error.pesan, 'error')
+        }
+
     })
 
     const { handleSubmit, setError } = formMethods
 
     const onSubmit = handleSubmit((data) => {
-        alert(JSON.stringify(data))
+        mutate(data)
     })
 
     const containerInsets = useSafeAreaInsets()
@@ -66,14 +78,13 @@ const ResetPasswordWrapper = () => {
                                 />
 
                                 <Input
-                                    name="phone"
-                                    placeholder="No. Telp / Hp"
+                                    name="username"
+                                    placeholder="Username"
                                     inputClassName="text-black"
                                     className="rounded-md"
                                     leftNode={
-                                        <PhoneIcon color={colors.palette.neutral80} />
+                                        <CardIcon color={colors.palette.neutral80} />
                                     }
-                                    keyboardType="number-pad"
                                 />
 
                                 <Button
@@ -81,6 +92,7 @@ const ResetPasswordWrapper = () => {
                                     title="RESET"
                                     className="mb-3"
                                     onPress={onSubmit}
+                                    loading={isLoading}
                                 />
                             </FormProvider>
                         </View>

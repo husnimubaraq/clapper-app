@@ -99,9 +99,9 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                 )}
             </View>
 
-            {hint && <Text textClassName="text-md text-[#DF0000]">{hint}</Text>}
+            {hint && <Text variant='medium' textClassName="text-sm text-[#DF0000]">{hint}</Text>}
             {error && (
-                <Text textClassName="text-md text-[#DF0000]">
+                <Text variant='medium' textClassName="text-sm text-[#DF0000]">
                     {error?.message?.toString()}
                 </Text>
             )}

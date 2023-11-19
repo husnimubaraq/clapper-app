@@ -20,18 +20,18 @@ export const NewsItem = (props: TProps) => {
         <View className="py-3 border-b border-neutral-400">
             <View className="flex-row mb-3">
                 <Image
-                    source={{uri: data.image_url}}
+                    source={{uri: data.berita_foto}}
                     className="w-[97px] h-[87px]"
                     borderRadius={spacing.medium}
                 />
 
                 <View className="flex-1 ml-3">
-                    <Text textClassName="text-base" variant="medium">{data.title}</Text>
-                    <Text textClassName="text-md" variant="light">{data.content}</Text>
+                    <Text textClassName="text-base" variant="medium">{data.berita_judul}</Text>
+                    <Text textClassName="text-md" variant="light">{data.berita_uraian}</Text>
                 </View>
             </View>
 
-            <Text textClassName="text-md text-right" variant="light">{data.date}</Text>
+            <Text textClassName="text-md text-right" variant="light">{data.berita_tanggal}</Text>
         </View>
     )
 }

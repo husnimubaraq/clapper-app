@@ -3,13 +3,15 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SafeAreaView, View, StyleSheet, TouchableOpacity, FlatList, ListRenderItem, Image } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { VH, VW } from "utils";
-import { TCategory, categories } from 'features/clapper'
+import { TCategory, categories, useGetCategory } from 'features/clapper'
 import { BackspaceIcon, LocationIcon } from "components/icons";
 import { colors, spacing } from "themes";
 import { MessagePopup, Text } from "components/base";
 import * as Notifications from 'expo-notifications';
 
 export const CategoryList = () => {
+
+  const { data } = useGetCategory()
 
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<TCategory | null>(null)
@@ -43,7 +45,7 @@ export const CategoryList = () => {
       onPress={schedulePushNotification}
     >
       <Image
-        source={{ uri: item.image_url }}
+        source={{ uri: item.kategoripelaporan_icon }}
         className=" shadow-md"
         style={{
           height: VW / 3.5,
@@ -52,14 +54,14 @@ export const CategoryList = () => {
         borderRadius={5}
       />
 
-      <Text textClassName="text-white font-medium text-base mt-3 text-center">{item.title}</Text>
+      <Text textClassName="text-white font-medium text-base mt-3 text-center">{item.kategoripelaporan_nama}</Text>
     </TouchableOpacity>
   ), [])
 
   return (
     <>
       <FlatList
-        data={categories}
+        data={data?.data}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderItem}
         numColumns={3}

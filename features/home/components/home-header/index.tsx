@@ -9,10 +9,16 @@ import { useNavigation } from "@react-navigation/native"
 import { StackNavigation } from "types/navigator"
 import { Text } from "components/base"
 import { VW } from "utils"
+import { useAuthStore } from "stores"
+import dayjs from "dayjs"
 
 export const HomeHeader = () => {
 
     const { navigate } = useNavigation<StackNavigation>()
+
+    const auth = useAuthStore((state: any) => state.auth)
+
+    const today = dayjs().format("dddd, DD MMMM YYYY")
 
     return (
         <ImageBackground
@@ -32,12 +38,12 @@ export const HomeHeader = () => {
                         />
 
                         <View className="ml-3">
-                            <Text textClassName="text-xl text-white" variant="bold">Halo Rahmad Arbi</Text>
+                            <Text textClassName="text-xl text-white" variant="bold">{auth?.pengguna_nama}</Text>
                             <Text textClassName="text-lg text-white" variant="medium">Warga</Text>
                         </View>
                     </View>
 
-                    <Text textClassName="text-md text-white" variant="medium">Sabtu,  4 Juni 2023</Text>
+                    <Text textClassName="text-md text-white" variant="medium">{today}</Text>
                 </View>
 
                 <TouchableOpacity>

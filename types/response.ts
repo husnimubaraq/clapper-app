@@ -1,13 +1,8 @@
 
 export type TResponse<T> = {
-    data: {
-        code: string
-        use_encrypt: string
-        message: string
-        data: T
-    }
-    message?: string
-    status: boolean
+    status: string
+    pesan: string
+    data: T
 }
 
 export type TAppInfo = {
