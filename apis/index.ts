@@ -23,9 +23,6 @@ axiosInstance.interceptors.request.use(
           }
         }
     }
-
-    console.log('url: ', config.url)
-    console.log('params: ', config.params)
     
     return config
   },

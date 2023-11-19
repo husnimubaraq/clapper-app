@@ -8,8 +8,10 @@ export const useAuthStore = create(persist(
     (set) => ({
         auth: {} as TAuth,
         token: "" as string,
+        tokenFcm: "" as string,
         setAuthState: (data: any) => set(() => ({ auth: { ...data } })),
         setToken: (data: any) => set(() => ({ token: data })),
+        setFcmToken: (data: any) => set(() => ({ tokenFcm: data })),
     }),
     {
         name: 'authStore',

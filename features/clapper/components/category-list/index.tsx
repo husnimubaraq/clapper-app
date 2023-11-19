@@ -29,7 +29,7 @@ export const CategoryList = () => {
       },
       trigger: { 
         seconds: 2,
-        channelId: 'new-emails',
+        channelId: 'sound_channel',
       },
     });
   }
