@@ -1,9 +1,8 @@
 export type TRegisterRequest = {
     name: string
-    username: string
-    address: string
+    email: string
     phone: string
-    birth_date: string
+    username: string
     password: string
-    password_confirm: string
+    password_confirm?: string
 }

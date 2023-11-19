@@ -1,4 +1,6 @@
 export type TCategory = {
-    title: string
-    image_url: string
+    kategoripelaporan_id: string
+    kategoripelaporan_nama: string
+    kategoripelaporan_suara: string
+    kategoripelaporan_icon: string
 }

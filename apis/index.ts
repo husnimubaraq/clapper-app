@@ -16,13 +16,16 @@ axiosInstance.interceptors.request.use(
     if(dataAuth){
         const token = JSON.parse(dataAuth).state.token
 
-        if(dataAuth.id){
+        if(token){
           config.params = {
             ...config.params,
             token: token
           }
         }
     }
+
+    console.log('url: ', config.url)
+    console.log('params: ', config.params)
     
     return config
   },
