@@ -7,7 +7,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 
 import { useToastContext } from "contexts";
 import { Button, Input, Text } from "components/base";
-import { TLoginRequest, loginRequest } from "features/auth";
+import { TLogin, TLoginRequest, loginRequest } from "features/auth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { schemaValidation } from './validation'
@@ -16,9 +16,15 @@ import { HeaderAuth } from "layouts/default";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { InputPassword } from "components/input-password";
 import { colors } from "themes";
+import { useAuthStore } from "stores";
+
+import { jwtDecode } from "jwt-decode";
+import "core-js/stable/atob";
 
 const LoginWrapper = () => {
   const { dispatch, navigate } = useNavigation<StackNavigation>()
+
+  const setToken = useAuthStore((state: any) => state.setToken)
 
   const { showToast } = useToastContext()
 
@@ -30,10 +36,30 @@ const LoginWrapper = () => {
     }
   })
 
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (params: TLoginRequest) => loginRequest(params),
+    onSuccess: async (data: TLogin) => {
+      
+      setToken(data.token)
+      console.log('token: ', data.token)
+
+      const decoded = jwtDecode(data.token, {
+        header: false
+      });
+
+      console.log('decoded: ', decoded)
+    },
+    onError: (error: any) => {
+      showToast(error.pesan, 'error')
+    }
+
+  })
+
+
   const { handleSubmit, setError } = formMethods
 
-  const onSubmit = handleSubmit((params) => {
-
+  const onSubmit = handleSubmit((data) => {
+    mutate(data)
   })
 
   const containerInsets = useSafeAreaInsets()
@@ -73,6 +99,7 @@ const LoginWrapper = () => {
                   title="LOGIN"
                   className="mb-3"
                   onPress={onSubmit}
+                  loading={isLoading}
                 />
 
                 <View className="flex-row justify-between mt-5">

@@ -5,11 +5,11 @@ export const loginRequest = async (request: TLoginRequest) => {
 
     const body = new FormData();
 
-    body.append("data[phone]", request.phone)
-    body.append("data[password]", request.password)
-    body.append("data[token_device]", '12345')
+    body.append("LoginForm[username]", request.username)
+    body.append("LoginForm[password]", request.password)
+    body.append("api", 'login')
 
-    const { data } = await axiosInstance.post('/authentication/login', body)
+    const { data } = await axiosInstance.post('/site/login', body)
 
     return data
 }

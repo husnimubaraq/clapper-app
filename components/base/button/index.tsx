@@ -1,10 +1,11 @@
-import { TouchableOpacity } from 'react-native'
+import { ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { PropsWithChildren  } from 'react'
 
 import { variants } from './data'
 import { TProps } from './type'
 import { twMerge } from 'tailwind-merge'
 import { Text } from 'components/base'
+import { colors } from 'themes'
 
 export const Button = (props: PropsWithChildren<TProps>) => {
     const { 
@@ -14,8 +15,10 @@ export const Button = (props: PropsWithChildren<TProps>) => {
         classNameText, 
         onPress,
         variant = 'primary',
+        fontVariant = 'medium',
         style,
-        disabled
+        disabled,
+        loading
     } = props
 
     return (
@@ -29,12 +32,16 @@ export const Button = (props: PropsWithChildren<TProps>) => {
             style={style}
         >
             {children ? children : (
-                <Text
-                    textClassName={`text-lg text-white ${classNameText}`}
-                    variant="medium"
-                >
-                    {title}
-                </Text>
+                loading ? (
+                    <ActivityIndicator size='small' color={colors.background} />
+                ) : (
+                    <Text 
+                        variant={fontVariant}
+                        textClassName={`text-lg font-semibold text-white ${classNameText}`}
+                    >
+                        {title}
+                    </Text>
+                )
             )}
         </TouchableOpacity>
     )

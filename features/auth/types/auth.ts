@@ -3,11 +3,20 @@ export type TLoginRequest = {
     password: string
 }
 
+export type TLogin = {
+    pesan: string
+    token: string
+}
+
 export type TAuth = {
-    id: string
-    name: string
-    nickname: string
-    poin: number
-    member_card: string
-    token_device: string
+    aud: string
+    iat: string
+    exp: string
+    issued_at: string
+    expired_at: string
+    pengguna_id: string
+    pengguna_nama: string
+    pengguna_username: string
+    pengguna_foto: string
+    role_id: string
 }

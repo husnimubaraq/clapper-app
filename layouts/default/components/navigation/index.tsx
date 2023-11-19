@@ -177,10 +177,10 @@ export const Navigation = () => {
     return (
         <NavigationContainer>
             <Navigator
-                initialRouteName={'BottomTab'}
+                initialRouteName={'Login'}
             >
-                <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
                 <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
+                <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
                 <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
                 <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
                 <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
