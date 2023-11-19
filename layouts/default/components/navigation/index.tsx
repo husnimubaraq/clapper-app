@@ -1,7 +1,7 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useRef, useState } from 'react'
-import messaging from '@react-native-firebase/messaging';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 import { BottomTabParamList, RootStackParamList, StackNavigation } from 'types';
 import LoginWrapper from 'features/auth/components/login-wrapper'
@@ -19,6 +19,7 @@ import { FingerprintIcon, HomeIcon, UserIcon } from 'components/icons';
 import { Platform, TouchableOpacity } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { useAuthStore } from 'stores';
+import { TNotification } from 'types';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabStack = createBottomTabNavigator<BottomTabParamList>();
@@ -37,20 +38,24 @@ const BottomTabNavigator = () => {
 
     const { navigate } = useNavigation<StackNavigation>()
 
-    const setToken = useAuthStore((state: any) => state.setToken)
+    const setFcmToken = useAuthStore((state: any) => state.setFcmToken)
 
-    const schedulePushNotification = async () => {
+    const schedulePushNotification = async (notification: FirebaseMessagingTypes.Notification) => {
+        
         await Notifications.scheduleNotificationAsync({
           content: {
-            title: "You've got mail! 📬",
-            body: 'Here is the notification body',
+            title: notification.title,
+            body: notification.body,
             data: { data: 'goes here' },
-            sound: 'suara2.mp3',
-            vibrate: [0, 250, 250, 250]
+            sound: notification.android?.sound,
+            vibrate: [0, 250, 500, 1000],
+            sticky: true,
+            priority: Notifications.AndroidNotificationPriority.MAX,
+            subtitle: 'subtitle',
           },
           trigger: { 
-            seconds: 2,
-            channelId: 'sound_channel',
+            seconds: 5,
+            channelId: notification.android?.channelId,
           },
         });
     }
@@ -67,7 +72,7 @@ const BottomTabNavigator = () => {
 
             console.log('token: ', token)
 
-            setToken(token)
+            setFcmToken(token)
         }
 
     }
@@ -92,7 +97,10 @@ const BottomTabNavigator = () => {
 
         const unsubscribe = messaging().onMessage(async remoteMessage => {
             console.log('onMessage: ', remoteMessage)
-            schedulePushNotification()
+            if(remoteMessage.notification){
+                schedulePushNotification(remoteMessage.notification)
+            }
+            
         });
 
         return unsubscribe;
@@ -173,17 +181,29 @@ const BottomTabNavigator = () => {
 
 export const Navigation = () => {
     const { Navigator, Screen } = RootStack
+    
+    const auth = useAuthStore((state: any) => state.auth)
+    const isAuth = Object.keys(auth).length > 0
 
     return (
         <NavigationContainer>
             <Navigator
-                initialRouteName={'Login'}
+                initialRouteName={isAuth ? 'BottomTab' : 'Login'}
             >
-                <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
-                <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
-                <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
-                <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
-                <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
+                {isAuth ? (
+                    <>
+                        <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
+                        <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
+                    </>
+                ) : (
+                    <>
+                        <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
+                        <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
+                        <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
+                    </>
+                )}
+                
+                
             </Navigator>
         </NavigationContainer>
     );
