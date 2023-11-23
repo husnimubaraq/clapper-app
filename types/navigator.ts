@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { NavigationProp } from "@react-navigation/native";
 import { TComplaint } from "features/complaint";
+import { TNews } from "features/home";
 
 export type RootStackParamList = {
     Main: undefined;
@@ -11,6 +12,7 @@ export type RootStackParamList = {
     Clapper: undefined;
     Complaint: undefined;
     ComplaintDetail: TComplaint;
+    NewsDetail: TNews;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

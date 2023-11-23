@@ -10,6 +10,7 @@ import { StackNavigation } from "types/navigator"
 import { Text } from "components/base"
 import { VH, VW } from "utils"
 import { TNews, NewsItem, news, useGetNews } from "features/home"
+import { useAuthStore } from "stores"
 
 export const News = () => {
 

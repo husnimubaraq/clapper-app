@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import React, { LegacyRef, useEffect, useMemo, useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { VH, VW } from "utils";
 import MapView, { Marker, Region } from "react-native-maps";
@@ -30,10 +30,36 @@ export const ClapperMap = () => {
 
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
+    const onCurrentLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+            
+        if (status !== 'granted') {
+            alert('Permission to access location was denied')
+            return;
+        }
+
+        const location = await Location.getCurrentPositionAsync({});
+        setRegion({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        })
+        setLocation(location);
+        map.current.animateToRegion({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        }, 500);
+        map.current.fitToCoordinates(location.coords)
+    }
+
     useEffect(() => {
         (async () => {
 
             let { status } = await Location.requestForegroundPermissionsAsync();
+
             if (status !== 'granted') {
                 alert('Permission to access location was denied')
                 return;
@@ -67,8 +93,21 @@ export const ClapperMap = () => {
                                 latitude: location?.coords.latitude ?? 0,
                                 longitude: location?.coords.longitude ?? 0
                             }}
-                            pinColor='red'
-                        />
+                        >
+                            <View className="items-center">
+                                <View className="w-[150px] items-center py-3 rounded-xl bg-white">
+                                    <View className="w-[46px] h-[46px] items-center justify-center shadow-xl shadow-green-500  bg-green-500 rounded-full">
+                                        <Image
+                                            source={require('assets/images/avatar.png')}
+                                            className="w-[45px] h-[45px]"
+                                            borderRadius={100}
+                                        />
+                                    </View>
+                                    <Text textClassName="mt-2 text-center">Lokasi Saya</Text>
+                                </View>
+                                <View style={[styles.triangle, styles.triangleDown]} />
+                            </View>
+                        </Marker>
                     </MapView>
                 )}
             </View>
@@ -84,11 +123,11 @@ export const ClapperMap = () => {
                 }}
                 //@ts-ignore
                 headerComponent={
-                    <ClapperHeader/>
+                    <ClapperHeader onCurrent={onCurrentLocation} />
                 }
             >
                 <View className="flex-1 bg-[#1B4C60]">
-                    <CategoryList/>
+                    <CategoryList />
                 </View>
             </BottomSheet>
         </>
@@ -103,4 +142,20 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '60%'
     },
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: "transparent",
+        borderStyle: "solid",
+        borderLeftWidth: 10,
+        borderRightWidth: 10,
+        borderBottomWidth: 15,
+        borderLeftColor: "transparent",
+        borderRightColor: "transparent",
+        borderBottomColor: "white",
+    },
+    triangleDown: {
+        transform: [{ rotate: "180deg" }],
+    },
+
 });
