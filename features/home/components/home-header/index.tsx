@@ -1,5 +1,5 @@
 import React from "react"
-import { TouchableOpacity, View, ImageBackground } from "react-native"
+import { TouchableOpacity, View, ImageBackground, Image } from "react-native"
 import {twMerge} from 'tailwind-merge'
 
 import { BellIcon, ChevronLeftIcon } from "components/icons"
@@ -34,8 +34,14 @@ export const HomeHeader = () => {
                 <View className="">
                     <View className="flex-row items-center mb-3">
                         <View
-                            className="w-[60px] h-[60px] rounded-full bg-neutral-400"
-                        />
+                            className="rounded-full bg-neutral-400"
+                        >
+                            <Image
+                                source={require('assets/images/avatar.png')}
+                                className="w-[60px] h-[60px]"
+                                borderRadius={100}
+                            />
+                        </View>
 
                         <View className="ml-3">
                             <Text textClassName="text-xl text-white" variant="bold">{auth?.pengguna_nama}</Text>

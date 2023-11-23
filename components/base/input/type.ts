@@ -11,6 +11,7 @@ export type TProps<TFormValues extends FieldValues> = {
   className?: string
   labelClassName?: string
   inputClassName?: string
+  inputContainerClassName?: string
   containerClassName?: string
   leftNodeClassName?: string
   rightNodeClassName?: string

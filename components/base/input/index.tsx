@@ -17,6 +17,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
         hint,
         labelClassName,
         inputClassName,
+        inputContainerClassName,
         containerClassName,
         leftNodeClassName,
         rightNodeClassName,
@@ -29,8 +30,11 @@ export const Input = <TFormValues extends Record<string, unknown>>(
 
     const {
         control,
+        watch,
         formState: { errors },
     } = useFormContext()
+
+    const value = watch(name)
 
     const error = get(errors, name)
 
@@ -54,6 +58,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                 className={twMerge(
                     'h-12 flex-row bg-white items-center rounded-md',
                     className,
+                    inputContainerClassName
                 )}
             >
                 {leftNode && (
@@ -81,7 +86,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                                 fontFamily: 'Montserrat-Regular'
                             }}
                             onChangeText={field.onChange}
-                            autoCapitalize='none'
+                            value={value}
                             {...rest}
                         />
                     )}

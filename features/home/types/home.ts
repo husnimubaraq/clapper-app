@@ -10,3 +10,17 @@ export type TNews = {
     berita_ispublish: string
     totalkomentar: string
 }
+
+export type TComment = {
+    beritadetail_id: string
+    berita_id: string
+    pengguna_id: string
+    tblpengguna_nama: string
+    beritadetail_komentar: string
+}
+
+export type TCommentRequest = {
+    token: string
+    berita_id: string
+    message: string
+}

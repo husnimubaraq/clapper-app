@@ -17,7 +17,11 @@ export const NewsItem = (props: TProps) => {
     const { navigate } = useNavigation<StackNavigation>()
 
     return (
-        <View className="py-3 border-b border-neutral-400">
+        <TouchableOpacity 
+            activeOpacity={0.8}
+            className="py-3 border-b border-neutral-400"
+            onPress={() => navigate('NewsDetail', data)}
+        >
             <View className="flex-row mb-3">
                 <Image
                     source={{uri: data.berita_foto}}
@@ -32,6 +36,6 @@ export const NewsItem = (props: TProps) => {
             </View>
 
             <Text textClassName="text-md text-right" variant="light">{data.berita_tanggal}</Text>
-        </View>
+        </TouchableOpacity>
     )
 }
