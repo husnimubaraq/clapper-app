@@ -46,7 +46,9 @@ export const HomeHeader = () => {
                     <Text textClassName="text-md text-white" variant="medium">{today}</Text>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigate('Complaint')}
+                >
                     <BellIcon width={50} height={50} color={colors.text} />
                 </TouchableOpacity>
             </View>

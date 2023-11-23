@@ -5,5 +5,6 @@ export const variants = {
     outline:
         ' border border-[#fff] hover:border-[#FCB017] hover:text-[#FCB017]',
     success: 'bg-[#01C46B] text-white hover:bg-[#009F57]',
+    default: 'bg-[#C4C4C4]',
     disabled: 'bg-[#848484] text-white hover:bg-[#848484]',
 }

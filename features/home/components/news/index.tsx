@@ -17,8 +17,6 @@ export const News = () => {
     
     const { data } = useGetNews()
 
-    console.log('data: ', data)
-
     const renderItem = useCallback<ListRenderItem<TNews>>(({ item }) => (
         <NewsItem
             data={item}
