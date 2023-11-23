@@ -11,6 +11,8 @@ import ResetPasswordWrapper from 'features/auth/components/reset-password-wrappe
 import HomeWrapper from 'features/home/components/home-wrapper'
 import ProfileWrapper from 'features/profile/components/profile-wrapper'
 import ClapperWrapper from 'features/clapper/components/clapper-wrapper'
+import ComplaintWrapper from 'features/complaint/components/complaint-wrapper'
+import ComplaintDetailWrapper from 'features/complaint/components/complaint-detail-wrapper'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'components/base';
@@ -194,6 +196,8 @@ export const Navigation = () => {
                     <>
                         <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
                         <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
+                        <Screen name='Complaint' options={{ headerShown: false }} component={ComplaintWrapper} />
+                        <Screen name='ComplaintDetail' options={{ headerShown: false }} component={ComplaintDetailWrapper} />
                     </>
                 ) : (
                     <>
