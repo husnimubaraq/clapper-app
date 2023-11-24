@@ -14,9 +14,8 @@ export const MessagePopup = (props: TProps) => {
             animationType="fade" 
             transparent 
             visible={isOpen}
-            onRequestClose={() => {
-                onCancel && onCancel(false)
-            }}
+            onRequestClose={() => onCancel && onCancel(false)}
+            onDismiss={() => onCancel && onCancel(false)}
         >
             <View 
                 className='absolute bottom-0 top-0 justify-center w-full'

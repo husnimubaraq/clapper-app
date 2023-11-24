@@ -8,6 +8,8 @@ export const axiosInstance = axios.create({
   baseURL,
 })
 
+export const axiosPublicInstance = axios.create()
+
 axiosInstance.interceptors.request.use(
   async (config) => {
       

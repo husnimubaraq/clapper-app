@@ -8,41 +8,86 @@ import { BackspaceIcon, LocationIcon } from "components/icons";
 import { colors, spacing } from "themes";
 import { MessagePopup, Text } from "components/base";
 import * as Notifications from 'expo-notifications';
+import { ConfirmationDialog } from "components/confirmation-dialog";
+import { TNotification } from "types";
+import { TCreateComplaint, createComplaintRequest, createNotificationRequest } from "features/complaint";
+import { useToastContext } from "contexts";
+import { useAuthStore } from "stores";
+import dayjs from "dayjs";
+import { TProps } from "./type";
 
-export const CategoryList = () => {
+export const CategoryList = (props: TProps) => {
+  const { location } = props
 
   const { data } = useGetCategory()
 
+  const auth = useAuthStore((state: any) => state.auth)
+  const token = useAuthStore((state: any) => state.token)
+
+  const { showToast } = useToastContext()
+
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false)
   const [selected, setSelected] = useState<TCategory | null>(null)
 
-  const containerInsets = useSafeAreaInsets()
+  const { mutate: mutateFirebase, isLoading: isLoadingFirebase } = useMutation({
+    mutationFn: (params: TNotification) => createNotificationRequest(params),
+    onSuccess: async (data) => {
+      setIsOpenConfirm(false)
+      setIsOpen(true)
+    },
+    onError: (error: any) => {
+      showToast(error.message, 'error')
+    }
+  })
 
-  const schedulePushNotification = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "You've got mail! 📬",
-        body: 'Here is the notification body',
-        data: { data: 'goes here' },
-        sound: 'suara1.mp3',
-        vibrate: [0, 250, 250, 250]
-      },
-      trigger: { 
-        seconds: 2,
-        channelId: 'sound_channel',
-      },
-    });
+  const { mutate: mutateComplaint, isLoading } = useMutation({
+    mutationFn: (params: TCreateComplaint) => createComplaintRequest(params),
+    onSuccess: async () => {
+      const category = selected?.kategoripelaporan_nama.toLocaleLowerCase().replaceAll(' ', '-')
+
+      mutateFirebase({
+        to: `/topics/${category}`,
+        notification: {
+          title: selected?.kategoripelaporan_nama ?? '',
+          body: `Terjadi ${selected?.kategoripelaporan_nama}`,
+          android_channel_id: selected?.kategoripelaporan_id ?? ''
+        },
+        data: {
+          pengguna_nama: auth?.pengguna_nama
+        }
+      })
+    },
+    onError: (error: any) => {
+      showToast(error.message, 'error')
+    }
+  })
+
+  const onSubmit = async () => {
+    const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss').split(' ')
+    const date = datetime[0]
+    const time = datetime[1]
+
+    if(location){
+      mutateComplaint({
+        token,
+        kategoripelaporan_id: selected?.kategoripelaporan_id ?? '',
+        pelaporan_tanggal: date,
+        pelaporan_jam: time,
+        pelaporan_latitude: location?.coords.latitude.toString(),
+        pelaporan_longitude: location?.coords.longitude.toString(),
+      })
+    }
   }
 
   const renderItem = useCallback<ListRenderItem<TCategory>>(({ item }) => (
     <TouchableOpacity
       activeOpacity={0.8}
       className="mb-5 px-2"
-      // onPress={() => {
-      //   setSelected(item)
-      //   setIsOpen(true)
-      // }}
-      onPress={schedulePushNotification}
+      onPress={() => {
+        setIsOpenConfirm(true)
+        setSelected(item)
+      }}
     >
       <Image
         source={{ uri: item.kategoripelaporan_icon }}
@@ -76,6 +121,16 @@ export const CategoryList = () => {
         onCancel={setIsOpen}
         title="Sukses"
         message="Terimakasih, Aduan anda berhasil disimpan. Silahkan tunggu tanggapan dari warga !"
+      />
+
+      <ConfirmationDialog
+        title="Konfirmasi"
+        message="Apakah anda yakin ingin melakukan pelaporan ini?"
+        onSubmit={onSubmit}
+        isOpen={isOpenConfirm}
+        onCancel={setIsOpenConfirm}
+        cancelText="Batal"
+        isLoading={isLoading || isLoadingFirebase}
       />
     </>
   );
