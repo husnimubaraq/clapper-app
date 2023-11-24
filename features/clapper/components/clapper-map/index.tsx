@@ -127,7 +127,7 @@ export const ClapperMap = () => {
                 }
             >
                 <View className="flex-1 bg-[#1B4C60]">
-                    <CategoryList />
+                    <CategoryList location={location ?? undefined} />
                 </View>
             </BottomSheet>
         </>

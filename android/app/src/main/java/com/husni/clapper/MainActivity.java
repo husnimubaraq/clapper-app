@@ -27,7 +27,7 @@ public class MainActivity extends ReactActivity {
     setTheme(R.style.AppTheme);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel notificationChannel = new NotificationChannel("sound_channel_p1", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      NotificationChannel notificationChannel = new NotificationChannel("1", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
       notificationChannel.setShowBadge(true);
       notificationChannel.setDescription("");
       AudioAttributes att = new AudioAttributes.Builder()
@@ -43,7 +43,7 @@ public class MainActivity extends ReactActivity {
     }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel notificationChannel = new NotificationChannel("sound_channel", "{App_N}", NotificationManager.IMPORTANCE_HIGH);
+      NotificationChannel notificationChannel = new NotificationChannel("2", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
       notificationChannel.setShowBadge(true);
       notificationChannel.setDescription("");
       AudioAttributes att = new AudioAttributes.Builder()

@@ -43,18 +43,19 @@ const BottomTabNavigator = () => {
 
     const setFcmToken = useAuthStore((state: any) => state.setFcmToken)
 
-    const schedulePushNotification = async (notification: FirebaseMessagingTypes.Notification) => {
+    const schedulePushNotification = async (notification: FirebaseMessagingTypes.Notification & {
+        data: any
+    }) => {
         
         await Notifications.scheduleNotificationAsync({
           content: {
             title: notification.title,
             body: notification.body,
-            data: { data: 'goes here' },
             sound: notification.android?.sound,
             vibrate: [0, 250, 500, 1000],
             sticky: true,
             priority: Notifications.AndroidNotificationPriority.MAX,
-            subtitle: 'subtitle',
+            subtitle: notification.data.pengguna_nama,
           },
           trigger: { 
             seconds: 5,
@@ -101,12 +102,21 @@ const BottomTabNavigator = () => {
         const unsubscribe = messaging().onMessage(async remoteMessage => {
             console.log('onMessage: ', remoteMessage)
             if(remoteMessage.notification){
-                schedulePushNotification(remoteMessage.notification)
+                schedulePushNotification({
+                    ...remoteMessage.notification,
+                    data: remoteMessage.data
+                })
             }
-            
         });
 
-        return unsubscribe;
+        messaging().subscribeToTopic('kebakaran')
+        messaging().subscribeToTopic('gempa-bumi')
+
+        return () => {
+            unsubscribe()
+            messaging().unsubscribeFromTopic('kebakaran')
+            messaging().unsubscribeFromTopic('gempa-bumi')
+        }
 
     }, [])
 

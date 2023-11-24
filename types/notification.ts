@@ -1,6 +1,11 @@
 export type TNotification = {
-    title: string
-    body: string
-    sound: string
-    android_channel_id: string
+    to: string
+    notification: {
+        title: string
+        body: string
+        android_channel_id: string
+    },
+    data: {
+        pengguna_nama: string
+    }
 }
