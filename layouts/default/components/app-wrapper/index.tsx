@@ -2,20 +2,31 @@ import React from "react";
 import { View } from "react-native";
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
 
-import { Navigation } from "layouts/default";
+import { Navigation, navigateReset } from "layouts/default";
 import { ToastProvider } from "contexts";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "themes";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AxiosError } from "axios";
+import { useAuthStore } from "stores";
 
 export type IAppWrapperProps = {};
 
 const AppWrapper: React.FC<IAppWrapperProps> = ({ }) => {
 
+  const setAuthState = useAuthStore((state: any) => state.setAuthState)
+  const setToken = useAuthStore((state: any) => state.setToken)
+
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error) => {
-
+        const response = error as Response
+        
+        if(response.status === 401){
+          navigateReset('Login')
+          setAuthState({})
+          setToken("")
+        }
       },
     }),
   });

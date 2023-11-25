@@ -24,6 +24,7 @@ import { Platform, TouchableOpacity } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { useAuthStore } from 'stores';
 import { TNotification } from 'types';
+import { navigationRef } from "layouts/default";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabStack = createBottomTabNavigator<BottomTabParamList>();
@@ -161,7 +162,7 @@ const BottomTabNavigator = () => {
                 name='Center'
                 options={{
                     headerShown: false,
-                    title: 'Data Saya',
+                    title: '',
                     tabBarIcon: () => (
                         <TouchableOpacity
                             activeOpacity={0.8}
@@ -200,28 +201,21 @@ export const Navigation = () => {
     const isAuth = Object.keys(auth).length > 0
 
     return (
-        <NavigationContainer>
+        <NavigationContainer
+            ref={navigationRef}
+        >
             <Navigator
                 initialRouteName={isAuth ? 'BottomTab' : 'Login'}
             >
-                {isAuth ? (
-                    <>
-                        <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
-                        <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
-                        <Screen name='Complaint' options={{ headerShown: false }} component={ComplaintWrapper} />
-                        <Screen name='ComplaintDetail' options={{ headerShown: false }} component={ComplaintDetailWrapper} />
-                        <Screen name='NewsDetail' options={{ headerShown: false }} component={NewsDetailWrapper} />
-                        <Screen name='UpdateComplaint' options={{ headerShown: false }} component={UpdateComplaintWrapper} />
-                    </>
-                ) : (
-                    <>
-                        <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
-                        <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
-                        <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
-                    </>
-                )}
-                
-                
+                <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
+                <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
+                <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
+                <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
+                <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
+                <Screen name='Complaint' options={{ headerShown: false }} component={ComplaintWrapper} />
+                <Screen name='ComplaintDetail' options={{ headerShown: false }} component={ComplaintDetailWrapper} />
+                <Screen name='NewsDetail' options={{ headerShown: false }} component={NewsDetailWrapper} />
+                <Screen name='UpdateComplaint' options={{ headerShown: false }} component={UpdateComplaintWrapper} />          
             </Navigator>
         </NavigationContainer>
     );
