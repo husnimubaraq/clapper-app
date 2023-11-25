@@ -14,6 +14,7 @@ import ClapperWrapper from 'features/clapper/components/clapper-wrapper'
 import ComplaintWrapper from 'features/complaint/components/complaint-wrapper'
 import ComplaintDetailWrapper from 'features/complaint/components/complaint-detail-wrapper'
 import NewsDetailWrapper from 'features/home/components/news-detail-wrapper'
+import UpdateComplaintWrapper from 'features/complaint/components/update-complaint-wrapper'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'components/base';
@@ -210,6 +211,7 @@ export const Navigation = () => {
                         <Screen name='Complaint' options={{ headerShown: false }} component={ComplaintWrapper} />
                         <Screen name='ComplaintDetail' options={{ headerShown: false }} component={ComplaintDetailWrapper} />
                         <Screen name='NewsDetail' options={{ headerShown: false }} component={NewsDetailWrapper} />
+                        <Screen name='UpdateComplaint' options={{ headerShown: false }} component={UpdateComplaintWrapper} />
                     </>
                 ) : (
                     <>

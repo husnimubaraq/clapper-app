@@ -1,6 +1,7 @@
 export type TLoginRequest = {
     username: string
     password: string
+    fcm_token?: string
 }
 
 export type TLogin = {
