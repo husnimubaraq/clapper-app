@@ -13,6 +13,7 @@ export type RootStackParamList = {
     Complaint: undefined;
     ComplaintDetail: TComplaint;
     NewsDetail: TNews;
+    UpdateComplaint: TComplaint;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

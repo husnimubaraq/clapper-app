@@ -24,4 +24,7 @@ export type TProps<TFormValues extends FieldValues> = {
   leftNode?: ReactNode
   onPress?: () => void
   secureTextEntry?: boolean
+  multiline?: boolean
+  rows?: number
+  numberOfLines?: number
 }

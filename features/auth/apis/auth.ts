@@ -7,6 +7,7 @@ export const loginRequest = async (request: TLoginRequest) => {
 
     body.append("LoginForm[username]", request.username)
     body.append("LoginForm[password]", request.password)
+    body.append("fcm_token", request.fcm_token ?? '')
     body.append("api", 'login')
 
     const { data } = await axiosInstance.post('/site/login', body)

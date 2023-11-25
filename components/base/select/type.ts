@@ -1,0 +1,15 @@
+import { ReactNode } from 'react'
+import { FieldValues, Path, RegisterOptions } from 'react-hook-form'
+import { KeyboardTypeOptions } from 'react-native'
+
+export type TProps<TFormValues extends FieldValues> = {
+  id?: string
+  name: Path<TFormValues>
+  label?: string
+  className?: string
+  labelClassName?: string
+  inputClassName?: string
+  containerClassName?: string
+  data: Record<string, string>[]
+  onChange?: (value?: Record<string, string>) => void
+}

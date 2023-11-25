@@ -1,5 +1,5 @@
 export const variants = {
-    primary: 'bg-[#1B4C60B2] text-white hover:bg-[#1B4C60B2]',
+    primary: 'bg-[#1B4C60] text-white hover:bg-[#1B4C60]',
     secondary: 'bg-[#E30016] text-white hover:bg-[#E30016]',
     error: 'bg-[#DD4B39] text-white hover:bg-[#DF0000]',
     outline:

@@ -22,6 +22,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
         leftNodeClassName,
         rightNodeClassName,
         rightNode,
+        multiline,
         leftNode,
         ...rest
     } = props
@@ -39,8 +40,12 @@ export const Input = <TFormValues extends Record<string, unknown>>(
     const error = get(errors, name)
 
     return (
-        <View className={twMerge(
-            'h-20',
+        <View 
+            style={{
+                zIndex: 1
+            }}
+            className={twMerge(
+            !multiline && 'h-20',
             containerClassName
         )}>
             {label && (
@@ -56,7 +61,8 @@ export const Input = <TFormValues extends Record<string, unknown>>(
 
             <View
                 className={twMerge(
-                    'h-12 flex-row bg-white items-center rounded-md',
+                    'flex-row bg-white items-center rounded-md',
+                    !multiline && 'h-12',
                     className,
                     inputContainerClassName
                 )}
@@ -80,6 +86,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                             id={id ?? generatedId}
                             className={twMerge(
                                 'border-0 px-4 py-3 text-md text-black flex-1',
+                                multiline && 'py-4',
                                 inputClassName
                             )}
                             style={{
@@ -87,6 +94,7 @@ export const Input = <TFormValues extends Record<string, unknown>>(
                             }}
                             onChangeText={field.onChange}
                             value={value}
+                            textAlignVertical={multiline ? 'top' : 'center'}
                             {...rest}
                         />
                     )}

@@ -24,6 +24,7 @@ import "core-js/stable/atob";
 const LoginWrapper = () => {
   const { dispatch, navigate } = useNavigation<StackNavigation>()
 
+  const tokenFcm = useAuthStore((state: any) => state.tokenFcm)
   const setToken = useAuthStore((state: any) => state.setToken)
   const setAuthState = useAuthStore((state: any) => state.setAuthState)
 
@@ -34,6 +35,7 @@ const LoginWrapper = () => {
     defaultValues: {
       username: '',
       password: '',
+      fcm_token: tokenFcm
     }
   })
 

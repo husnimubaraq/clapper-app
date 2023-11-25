@@ -1,5 +1,5 @@
 import { axiosInstance } from 'apis'
-import { TCreateComplaint } from 'features/complaint'
+import { TCreateComplaint, TUpdateComplaint } from 'features/complaint'
 
 export const complaintRequest = async () => {
 
@@ -20,6 +20,31 @@ export const createComplaintRequest = async (request: TCreateComplaint) => {
     body.append("pelaporan_latitude", request.pelaporan_latitude)
 
     const { data } = await axiosInstance.post('/warga/pelaporan', body)
+
+    return data
+}
+
+export const updateComplaintRequest = async (request: TUpdateComplaint) => {
+
+    const body = new FormData();
+
+    body.append("token", request.token)
+    body.append("pelaporan_id", request.pelaporan_id)
+    body.append("status", request.status.key)
+    body.append("alasanbatal", request.alasanbatal)
+
+    //@ts-ignore
+    body.append('lampiran', {
+        uri: request.lampiran,
+        name: new Date().toDateString() + ".jpeg",
+        type: 'image/jpeg'
+    })
+
+    const { data } = await axiosInstance.post('/warga/updatepelaporan', body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 
     return data
 }
