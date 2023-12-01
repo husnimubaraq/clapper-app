@@ -19,10 +19,12 @@ export const CommentList = (props: TProps) => {
 
     const { data: dataComment } = useGetComment(data.berita_id)
 
+    console.log('dataComment: ', dataComment)
+
     const renderItem = useCallback<ListRenderItem<TComment>>(({ item }) => (
         <View className="flex-row items-center mb-3">
             <Image
-                source={require('assets/images/avatar.png')}
+                source={{ uri: item.tblpengguna_foto }}
                 className="w-[32px] h-[32px]"
                 borderRadius={50}
             />

@@ -5,6 +5,8 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 // import 'firebaseConfig'
 import firebase from '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging';
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,7 +24,12 @@ const firebaseConfig = {
 
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()
 
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background! root', remoteMessage);
+});
+  
 
+  
 function IgniteApp() {
 
   const [fontsLoaded, fontError] = useFonts({

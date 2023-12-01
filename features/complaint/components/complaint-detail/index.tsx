@@ -19,8 +19,6 @@ export const ComplaintDetail = (props: TProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    console.log('data.pelaporan_foto: ', data.pelaporan_foto)
-
     return (
         <View className="px-5 mt-10">
             <View className="flex-row items-center justify-between mb-3">

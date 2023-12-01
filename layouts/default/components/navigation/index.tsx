@@ -25,6 +25,8 @@ import * as Notifications from 'expo-notifications';
 import { useAuthStore } from 'stores';
 import { TNotification } from 'types';
 import { navigationRef } from "layouts/default";
+import { useInvalidateQuery, useNotificationObserver } from 'hooks';
+import { useGetComplaint } from 'features/complaint';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabStack = createBottomTabNavigator<BottomTabParamList>();
@@ -45,6 +47,13 @@ const BottomTabNavigator = () => {
 
     const setFcmToken = useAuthStore((state: any) => state.setFcmToken)
 
+    const invalidate = useInvalidateQuery('complaint')
+
+    const [isNotif, setIsNotif] = useState(false)
+    const [pelaporanId, setPelaporanId] = useState('')
+
+    const { data, refetch } = useGetComplaint(false)
+
     const schedulePushNotification = async (notification: FirebaseMessagingTypes.Notification & {
         data: any
     }) => {
@@ -58,6 +67,7 @@ const BottomTabNavigator = () => {
             sticky: true,
             priority: Notifications.AndroidNotificationPriority.MAX,
             subtitle: notification.data.pengguna_nama,
+            data: notification.data
           },
           trigger: { 
             seconds: 5,
@@ -90,20 +100,35 @@ const BottomTabNavigator = () => {
         messaging().getInitialNotification().then(remoteMessage => {
             if (remoteMessage) {
                 console.log('getInitialNotification: ', remoteMessage)
+
+                const pelaporan_id = remoteMessage?.data?.id as string
+
+                setPelaporanId(pelaporan_id)
+
+                refetch()
+
+                setIsNotif(true)
             }
         });
 
         messaging().onNotificationOpenedApp(remoteMessage => {
-            console.log('onNotificationOpenedApp: ', remoteMessage)
-        });
+            if (remoteMessage?.data) {
+                console.log('onNotificationOpenedApp: ', remoteMessage)
 
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-            console.log('setBackgroundMessageHandler: ', remoteMessage)
+                const pelaporan_id = remoteMessage?.data.id as string
+
+                setPelaporanId(pelaporan_id)
+
+                refetch()
+
+                setIsNotif(true)
+            }
         });
 
         const unsubscribe = messaging().onMessage(async remoteMessage => {
             console.log('onMessage: ', remoteMessage)
             if(remoteMessage.notification){
+                invalidate()
                 schedulePushNotification({
                     ...remoteMessage.notification,
                     data: remoteMessage.data
@@ -122,7 +147,50 @@ const BottomTabNavigator = () => {
 
     }, [])
 
+    useEffect(() => {
+        if(data && isNotif){
+            console.log('data: ', data?.data)
 
+            setIsNotif(false)
+
+            const dataFilter = data.data.find((item) => item.pelaporan_id === pelaporanId)
+
+            if(dataFilter){
+                navigate("ComplaintDetail", dataFilter)
+            }
+            
+        }
+    }, [data, isNotif])
+
+    useEffect(() => {
+        let isMounted = true;
+
+        Notifications.getLastNotificationResponseAsync()
+            .then(response => {
+                if (!isMounted || !response?.notification) {
+                    return;
+                }
+                
+                console.log('getLastNotificationResponseAsync: ', response)
+            });
+
+        const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log('addNotificationResponseReceivedListener: ',response.notification.request.content.data);
+
+            const pelaporan_id = response.notification.request.content.data.id as string
+
+            setPelaporanId(pelaporan_id)
+
+            refetch()
+
+            setIsNotif(true)
+        });
+
+        return () => {
+            isMounted = false;
+            subscription.remove();
+        };
+    }, []);
     // useEffect(() => {
     //     init()
 

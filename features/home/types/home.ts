@@ -17,6 +17,7 @@ export type TComment = {
     pengguna_id: string
     tblpengguna_nama: string
     beritadetail_komentar: string
+    tblpengguna_foto: string
 }
 
 export type TCommentRequest = {

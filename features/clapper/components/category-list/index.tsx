@@ -43,7 +43,8 @@ export const CategoryList = (props: TProps) => {
 
   const { mutate: mutateComplaint, isLoading } = useMutation({
     mutationFn: (params: TCreateComplaint) => createComplaintRequest(params),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      
       const category = selected?.kategoripelaporan_nama.toLocaleLowerCase().replaceAll(' ', '-')
 
       mutateFirebase({
@@ -54,7 +55,8 @@ export const CategoryList = (props: TProps) => {
           android_channel_id: selected?.kategoripelaporan_id ?? ''
         },
         data: {
-          pengguna_nama: auth?.pengguna_nama
+          pengguna_nama: auth?.pengguna_nama,
+          id: data.pelaporan_id
         }
       })
     },

@@ -16,18 +16,22 @@ export const ComplaintItem = (props: TProps) => {
 
     const { navigate } = useNavigation<StackNavigation>()
 
+    const image = data?.pelaporan_foto ? {
+        uri: data?.pelaporan_foto
+    } : require('assets/images/avatar.png')
+
     return (
         <TouchableOpacity 
             activeOpacity={0.8}
             className="bg-[#C4C4C4D9] rounded-[10px] px-4 pt-2 pb-5 mb-4"
             onPress={() => navigate('ComplaintDetail', data)}
         >
-            <Text textClassName="text-sm text-white text-center">Kode Aduan {data.kategoripelaporan_nama}</Text>
+            <Text textClassName="text-sm text-white text-center">Kode Aduan {data.pelaporan_kode}</Text>
 
             <View className="flex-row items-center mt-2">
                 <View className="w-[46px] h-[46px] items-center justify-center shadow-xl shadow-green-500  bg-green-500 rounded-full">
                     <Image
-                        source={require('assets/images/avatar.png')}
+                        source={image}
                         className="w-[45px] h-[45px]"
                         borderRadius={100}
                     />

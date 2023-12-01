@@ -7,5 +7,6 @@ export type TNotification = {
     },
     data: {
         pengguna_nama: string
+        id: string
     }
 }
