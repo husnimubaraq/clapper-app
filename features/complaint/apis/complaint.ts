@@ -48,3 +48,10 @@ export const updateComplaintRequest = async (request: TUpdateComplaint) => {
 
     return data
 }
+
+export const checkScheduleRequest = async () => {
+
+    const { data } = await axiosInstance.get('/warga/cekjadwalronda')
+
+    return data
+}
