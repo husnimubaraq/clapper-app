@@ -17,7 +17,9 @@ export const MessagePopup = (props: TProps) => {
             onRequestClose={() => onCancel && onCancel(false)}
             onDismiss={() => onCancel && onCancel(false)}
         >
-            <View 
+            <TouchableOpacity 
+                activeOpacity={1}
+                onPress={() => onCancel && onCancel(false)}
                 className='absolute bottom-0 top-0 justify-center w-full'
                 style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.4)'
@@ -39,7 +41,7 @@ export const MessagePopup = (props: TProps) => {
 
                     <Text className='mt-5 text-white mx-4'>{message}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         </Modal>
     )
 }
