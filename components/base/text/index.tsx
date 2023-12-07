@@ -6,7 +6,7 @@ import { variants } from './data'
 import { twMerge } from 'tailwind-merge'
 
 export const Text = (props: PropsWithChildren<TProps>) => {
-    const { variant = 'normal', children, className, textClassName, color } = props
+    const { variant = 'normal', children, className, textClassName, color, numberOfLines } = props
 
     return (
         <TextCustom
@@ -22,6 +22,7 @@ export const Text = (props: PropsWithChildren<TProps>) => {
                 className,
                 textClassName
             )}
+            numberOfLines={numberOfLines}
         >
             {children}
         </TextCustom>

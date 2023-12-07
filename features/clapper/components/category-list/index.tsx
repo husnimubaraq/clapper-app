@@ -16,6 +16,15 @@ import { useAuthStore } from "stores";
 import dayjs from "dayjs";
 import { TProps } from "./type";
 
+const channels = [
+  "aman",
+  "pembunuhan",
+  "kebakaran",
+  "bencana",
+  "pencurian",
+  "ternak",
+]
+
 export const CategoryList = (props: TProps) => {
   const { location } = props
 
@@ -45,14 +54,23 @@ export const CategoryList = (props: TProps) => {
     mutationFn: (params: TCreateComplaint) => createComplaintRequest(params),
     onSuccess: async (data) => {
       
-      const category = selected?.kategoripelaporan_nama.toLocaleLowerCase().replaceAll(' ', '-')
+      const category = selected?.kategoripelaporan_nama
+
+      const categoryFind = channels.find(x => {
+        let cat = category?.split(' ').map(y => {
+          let regex = /[!@#$%^&*(),.?":{}|<>]/g
+
+          return y.replace(regex, '').toLowerCase();
+        })
+        return cat?.includes(x)
+      })
 
       mutateFirebase({
-        to: `/topics/${category}`,
+        to: `/topics/${categoryFind}`,
         notification: {
           title: selected?.kategoripelaporan_nama ?? '',
           body: `Terjadi ${selected?.kategoripelaporan_nama}`,
-          android_channel_id: selected?.kategoripelaporan_id ?? ''
+          android_channel_id: categoryFind ?? ''
         },
         data: {
           pengguna_nama: auth?.pengguna_nama,
@@ -85,10 +103,13 @@ export const CategoryList = (props: TProps) => {
   const renderItem = useCallback<ListRenderItem<TCategory>>(({ item }) => (
     <TouchableOpacity
       activeOpacity={0.8}
-      className="mb-5 px-2"
+      className="mb-5 px-2 mr-3"
       onPress={() => {
         setIsOpenConfirm(true)
         setSelected(item)
+      }}
+      style={{
+        width: VW / 3.5
       }}
     >
       <Image
@@ -101,7 +122,7 @@ export const CategoryList = (props: TProps) => {
         borderRadius={5}
       />
 
-      <Text textClassName="text-white font-medium text-base mt-3 text-center">{item.kategoripelaporan_nama}</Text>
+      <Text textClassName="text-white font-medium text-base mt-3 text-center ">{item.kategoripelaporan_nama}</Text>
     </TouchableOpacity>
   ), [])
 

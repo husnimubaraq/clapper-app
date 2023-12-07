@@ -19,8 +19,6 @@ export const CommentList = (props: TProps) => {
 
     const { data: dataComment } = useGetComment(data.berita_id)
 
-    console.log('dataComment: ', dataComment)
-
     const renderItem = useCallback<ListRenderItem<TComment>>(({ item }) => (
         <View className="flex-row items-center mb-3">
             <Image

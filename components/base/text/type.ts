@@ -3,4 +3,5 @@ export type TProps = {
     className?: string
     textClassName?: string,
     color?: string
+    numberOfLines?: number
 }

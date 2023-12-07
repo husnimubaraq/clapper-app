@@ -27,14 +27,14 @@ public class MainActivity extends ReactActivity {
     setTheme(R.style.AppTheme);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel notificationChannel = new NotificationChannel("1", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      NotificationChannel notificationChannel = new NotificationChannel("aman", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
       notificationChannel.setShowBadge(true);
       notificationChannel.setDescription("");
       AudioAttributes att = new AudioAttributes.Builder()
               .setUsage(AudioAttributes.USAGE_NOTIFICATION)
               .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
               .build();
-      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/suara1"), att);
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/aman"), att);
       notificationChannel.enableVibration(true);
       notificationChannel.setVibrationPattern(new long[]{400, 400});
       notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
@@ -43,14 +43,78 @@ public class MainActivity extends ReactActivity {
     }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel notificationChannel = new NotificationChannel("2", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      NotificationChannel notificationChannel = new NotificationChannel("bencana", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
       notificationChannel.setShowBadge(true);
       notificationChannel.setDescription("");
       AudioAttributes att = new AudioAttributes.Builder()
               .setUsage(AudioAttributes.USAGE_NOTIFICATION)
               .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
               .build();
-      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/suara2"), att);
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/bencana"), att);
+      notificationChannel.enableVibration(true);
+      notificationChannel.setVibrationPattern(new long[]{400, 400});
+      notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+      NotificationManager manager = getSystemService(NotificationManager.class);
+      manager.createNotificationChannel(notificationChannel);
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      NotificationChannel notificationChannel = new NotificationChannel("kebakaran", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      notificationChannel.setShowBadge(true);
+      notificationChannel.setDescription("");
+      AudioAttributes att = new AudioAttributes.Builder()
+              .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+              .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+              .build();
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/kebakaran"), att);
+      notificationChannel.enableVibration(true);
+      notificationChannel.setVibrationPattern(new long[]{400, 400});
+      notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+      NotificationManager manager = getSystemService(NotificationManager.class);
+      manager.createNotificationChannel(notificationChannel);
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      NotificationChannel notificationChannel = new NotificationChannel("pembunuhan", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      notificationChannel.setShowBadge(true);
+      notificationChannel.setDescription("");
+      AudioAttributes att = new AudioAttributes.Builder()
+              .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+              .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+              .build();
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/pembunuhan"), att);
+      notificationChannel.enableVibration(true);
+      notificationChannel.setVibrationPattern(new long[]{400, 400});
+      notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+      NotificationManager manager = getSystemService(NotificationManager.class);
+      manager.createNotificationChannel(notificationChannel);
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      NotificationChannel notificationChannel = new NotificationChannel("pencurian", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      notificationChannel.setShowBadge(true);
+      notificationChannel.setDescription("");
+      AudioAttributes att = new AudioAttributes.Builder()
+              .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+              .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+              .build();
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/pencurian"), att);
+      notificationChannel.enableVibration(true);
+      notificationChannel.setVibrationPattern(new long[]{400, 400});
+      notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+      NotificationManager manager = getSystemService(NotificationManager.class);
+      manager.createNotificationChannel(notificationChannel);
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      NotificationChannel notificationChannel = new NotificationChannel("ternak", "{App_Name}", NotificationManager.IMPORTANCE_HIGH);
+      notificationChannel.setShowBadge(true);
+      notificationChannel.setDescription("");
+      AudioAttributes att = new AudioAttributes.Builder()
+              .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+              .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+              .build();
+      notificationChannel.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/ternak"), att);
       notificationChannel.enableVibration(true);
       notificationChannel.setVibrationPattern(new long[]{400, 400});
       notificationChannel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
