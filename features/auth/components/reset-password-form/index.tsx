@@ -3,39 +3,44 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from 'react-query'
 import { FormProvider, useForm } from 'react-hook-form'
 import { View, SafeAreaView, TouchableOpacity, Image, ScrollView } from "react-native";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { CommonActions, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { useToastContext } from "contexts";
 import { Button, Input, Text } from "components/base";
-import { TLoginRequest, TResetPasswordRequest, loginRequest, resetPasswordRequest } from "features/auth";
+import { TLoginRequest, TResetPasswordFormRequest, TResetPasswordRequest, loginRequest, resetPasswordFormRequest } from "features/auth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { schemaValidation } from './validation'
-import { StackNavigation } from "types";
+import { RootStackParamList, StackNavigation } from "types";
 import { Header } from "layouts/default/components";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { InputPassword } from "components/input-password";
 import { colors } from "themes";
 import { CardIcon, CheckIcon, LockIcon, MainIcon, PhoneIcon } from "components/icons";
 
-const ResetPasswordWrapper = () => {
+const ResetPasswordForm = () => {
     const { goBack, navigate } = useNavigation<StackNavigation>()
+
+    const { params } = useRoute<RouteProp<RootStackParamList, 'ResetPasswordForm'>>() 
 
     const { showToast } = useToastContext()
 
-    const formMethods = useForm<TResetPasswordRequest>({
+    const formMethods = useForm<TResetPasswordFormRequest>({
         resolver: zodResolver(schemaValidation),
         defaultValues: {
-            email: '',
-            username: '',
+            email: params?.email,
+            username: params?.username,
+            password: '',
+            password_confirmation: '',
         }
     })
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (params: TResetPasswordRequest) => resetPasswordRequest(params),
-        onSuccess: async (data, params) => {
+        mutationFn: (params: TResetPasswordFormRequest) => resetPasswordFormRequest(params),
+        onSuccess: async (data) => {
             showToast(data.pesan, 'success')
-            navigate('ResetPasswordForm', params)
+            goBack()
+            goBack()
         },
         onError: (error: any) => {
             showToast(error.pesan, 'error')
@@ -66,30 +71,17 @@ const ResetPasswordWrapper = () => {
 
                         <View className="px-5 bg-[#C4C4C4D9] mx-5 pt-5 pb-6 rounded-xl">
                             <FormProvider {...formMethods}>
-                                <Input
-                                    name="email"
-                                    placeholder="Email"
-                                    inputClassName="text-black"
-                                    className="rounded-md"
-                                    leftNode={
-                                        <MainIcon color={colors.palette.neutral80} />
-                                    }
-                                    keyboardType="email-address"
+                                <InputPassword
+                                    name="password"
                                 />
 
-                                <Input
-                                    name="username"
-                                    placeholder="Username"
-                                    inputClassName="text-black"
-                                    className="rounded-md"
-                                    leftNode={
-                                        <CardIcon color={colors.palette.neutral80} />
-                                    }
+                                <InputPassword
+                                    name="password_confirmation"
                                 />
 
                                 <Button
                                     variant="primary"
-                                    title="RESET"
+                                    title="SIMPAN"
                                     className="mb-3"
                                     onPress={onSubmit}
                                     loading={isLoading}
@@ -104,4 +96,4 @@ const ResetPasswordWrapper = () => {
     );
 };
 
-export default ResetPasswordWrapper
+export default ResetPasswordForm

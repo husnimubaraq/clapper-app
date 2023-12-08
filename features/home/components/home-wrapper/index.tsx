@@ -19,8 +19,6 @@ const HomeWrapper = () => {
     }
   }, [data])
 
-  console.log('data: ', data)
-
   const containerInsets = useSafeAreaInsets()
 
   return (
