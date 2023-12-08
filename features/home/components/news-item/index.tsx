@@ -30,8 +30,8 @@ export const NewsItem = (props: TProps) => {
                 />
 
                 <View className="flex-1 ml-3">
-                    <Text textClassName="text-base" variant="medium">{data.berita_judul}</Text>
-                    <Text textClassName="text-md" variant="light">{data.berita_uraian}</Text>
+                    <Text textClassName="text-base" variant="medium" numberOfLines={2}>{data.berita_judul}</Text>
+                    <Text textClassName="text-md" variant="light" numberOfLines={3}>{data.berita_uraian}</Text>
                 </View>
             </View>
 

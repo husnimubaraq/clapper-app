@@ -137,13 +137,21 @@ const BottomTabNavigator = () => {
             }
         });
 
+        messaging().subscribeToTopic('aman')
+        messaging().subscribeToTopic('bencana')
         messaging().subscribeToTopic('kebakaran')
-        messaging().subscribeToTopic('gempa-bumi')
+        messaging().subscribeToTopic('pembunuhan')
+        messaging().subscribeToTopic('pencurian')
+        messaging().subscribeToTopic('ternak')
 
         return () => {
             unsubscribe()
+            messaging().unsubscribeFromTopic('aman')
+            messaging().unsubscribeFromTopic('bencana')
             messaging().unsubscribeFromTopic('kebakaran')
-            messaging().unsubscribeFromTopic('gempa-bumi')
+            messaging().unsubscribeFromTopic('pembunuhan')
+            messaging().unsubscribeFromTopic('pencurian')
+            messaging().unsubscribeFromTopic('ternak')
         }
 
     }, [])

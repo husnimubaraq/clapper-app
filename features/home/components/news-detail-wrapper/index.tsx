@@ -32,7 +32,7 @@ const NewsDetailWrapper = () => {
                     <View className="flex-1 bg-[#E4ECEF] px-5">
                         <Text textClassName="text-[#3E6777] text-center mt-3" variant="bold">{params.berita_judul}</Text>
 
-                        <View className="mt-3">
+                        <View className="mt-3 mb-5">
                             <Image
                                 source={{uri: params?.berita_foto}}
                                 style={{
@@ -42,8 +42,10 @@ const NewsDetailWrapper = () => {
                                 borderRadius={10}
                                 resizeMode="contain"
                             />
-                            <Text className="text-sm leading-4 mt-2">{params.berita_uraian}</Text>
+                            
                         </View>
+
+                        <Text className="text-sm leading-4">{params.berita_uraian}</Text>
 
                         <CommentList data={params} />
                     </View>
