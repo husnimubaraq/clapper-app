@@ -21,3 +21,16 @@ export type TAuth = {
     pengguna_foto: string
     role_id: string
 }
+
+export type TUpdateProfileRequest = {
+    token: string
+    username: string
+    name: string
+    email: string
+    phone: string
+}
+
+export type TUpdatePhotoProfileRequest = {
+    token: string
+    photo: any
+}

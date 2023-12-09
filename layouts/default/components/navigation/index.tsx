@@ -11,6 +11,7 @@ import ResetPasswordForm from 'features/auth/components/reset-password-form'
 
 import HomeWrapper from 'features/home/components/home-wrapper'
 import ProfileWrapper from 'features/profile/components/profile-wrapper'
+import UpdateProfileForm from 'features/profile/components/update-profile-form'
 import ClapperWrapper from 'features/clapper/components/clapper-wrapper'
 import ComplaintWrapper from 'features/complaint/components/complaint-wrapper'
 import ComplaintDetailWrapper from 'features/complaint/components/complaint-detail-wrapper'
@@ -21,7 +22,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'components/base';
 import { colors, spacing } from 'themes';
 import { FingerprintIcon, HomeIcon, UserIcon } from 'components/icons';
-import { Platform, TouchableOpacity } from 'react-native';
+import { Image, Platform, TouchableOpacity } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { useAuthStore } from 'stores';
 import { TNotification } from 'types';
@@ -246,7 +247,13 @@ const BottomTabNavigator = () => {
                             onPress={() => navigate('Clapper')}
                             className='h-[65px] w-[65px] items-center justify-center rounded-full bg-[#1B4C60] shadow-md border-2 border-white'
                         >
-                            <FingerprintIcon width={40} height={40} color={colors.background} />
+                            <Image
+                                source={require('assets/images/logo.png')}
+                                className='w-[40px] h-[40px]'
+                                style={{
+                                    tintColor: colors.background
+                                }}
+                            />
                         </TouchableOpacity>
                     ),
                     tabBarIconStyle: {
@@ -294,6 +301,7 @@ export const Navigation = () => {
                 <Screen name='ComplaintDetail' options={{ headerShown: false }} component={ComplaintDetailWrapper} />
                 <Screen name='NewsDetail' options={{ headerShown: false }} component={NewsDetailWrapper} />
                 <Screen name='UpdateComplaint' options={{ headerShown: false }} component={UpdateComplaintWrapper} />          
+                <Screen name='UpdateProfileForm' options={{ headerShown: false }} component={UpdateProfileForm} />          
             </Navigator>
         </NavigationContainer>
     );

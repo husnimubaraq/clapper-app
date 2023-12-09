@@ -16,6 +16,7 @@ export type RootStackParamList = {
     ComplaintDetail: TComplaint;
     NewsDetail: TNews;
     UpdateComplaint: TComplaint;
+    UpdateProfileForm: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
