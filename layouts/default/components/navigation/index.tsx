@@ -7,6 +7,7 @@ import { BottomTabParamList, RootStackParamList, StackNavigation } from 'types';
 import LoginWrapper from 'features/auth/components/login-wrapper'
 import RegisterWrapper from 'features/auth/components/register-wrapper'
 import ResetPasswordWrapper from 'features/auth/components/reset-password-wrapper'
+import ResetPasswordForm from 'features/auth/components/reset-password-form'
 
 import HomeWrapper from 'features/home/components/home-wrapper'
 import ProfileWrapper from 'features/profile/components/profile-wrapper'
@@ -286,6 +287,7 @@ export const Navigation = () => {
                 <Screen name='Login' options={{ headerShown: false }} component={LoginWrapper} />
                 <Screen name='Register' options={{ headerShown: false }} component={RegisterWrapper} />
                 <Screen name='ResetPassword' options={{ headerShown: false }} component={ResetPasswordWrapper} />
+                <Screen name='ResetPasswordForm' options={{ headerShown: false }} component={ResetPasswordForm} />
                 <Screen name='BottomTab' options={{ headerShown: false }} component={BottomTabNavigator} />
                 <Screen name='Clapper' options={{ headerShown: false }} component={ClapperWrapper} />
                 <Screen name='Complaint' options={{ headerShown: false }} component={ComplaintWrapper} />

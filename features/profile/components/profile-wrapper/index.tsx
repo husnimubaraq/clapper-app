@@ -4,7 +4,7 @@ import { SafeAreaView, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { HomeHeader, News } from "features/home";
 import { VH, VW } from "utils";
-import { LogoutIcon } from "components/icons";
+import { LogoutIcon, UserIcon } from "components/icons";
 import { Text } from "components/base";
 import { colors } from "themes";
 import { CommonActions, useNavigation } from "@react-navigation/native";
@@ -72,6 +72,16 @@ const ProfileWrapper = () => {
           </View>
 
           <View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={onLogout}
+              className="flex-row items-center border border-[#1B4C60B2] rounded-md py-3 px-4 shadow-md mb-3 bg-white"
+            >
+              <UserIcon color={colors.palette.primary} />
+
+              <Text textClassName="ml-2">Ubah Profil</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={onLogout}

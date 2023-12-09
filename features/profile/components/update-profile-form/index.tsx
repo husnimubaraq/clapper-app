@@ -18,7 +18,7 @@ import { InputPassword } from "components/input-password";
 import { colors } from "themes";
 import { CardIcon, CheckIcon, LockIcon, MainIcon, PhoneIcon } from "components/icons";
 
-const ResetPasswordWrapper = () => {
+const UpdateProfileForm = () => {
     const { goBack, navigate } = useNavigation<StackNavigation>()
 
     const { showToast } = useToastContext()
@@ -31,22 +31,10 @@ const ResetPasswordWrapper = () => {
         }
     })
 
-    const { mutate, isLoading } = useMutation({
-        mutationFn: (params: TResetPasswordRequest) => resetPasswordRequest(params),
-        onSuccess: async (data, params) => {
-            showToast(data.pesan, 'success')
-            navigate('ResetPasswordForm', params)
-        },
-        onError: (error: any) => {
-            showToast(error.pesan, 'error')
-        }
-
-    })
-
     const { handleSubmit, setError } = formMethods
 
     const onSubmit = handleSubmit((data) => {
-        mutate(data)
+        
     })
 
     const containerInsets = useSafeAreaInsets()
@@ -92,7 +80,6 @@ const ResetPasswordWrapper = () => {
                                     title="RESET"
                                     className="mb-3"
                                     onPress={onSubmit}
-                                    loading={isLoading}
                                 />
                             </FormProvider>
                         </View>
@@ -104,4 +91,4 @@ const ResetPasswordWrapper = () => {
     );
 };
 
-export default ResetPasswordWrapper
+export default UpdateProfileForm
