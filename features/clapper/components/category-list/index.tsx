@@ -9,8 +9,9 @@ import { colors, spacing } from "themes";
 import { MessagePopup, Text } from "components/base";
 import * as Notifications from 'expo-notifications';
 import { ConfirmationDialog } from "components/confirmation-dialog";
-import { TNotification } from "types";
-import { TCreateComplaint, createComplaintRequest, createNotificationRequest } from "features/complaint";
+import { TNotification, TNotificationNew } from "types";
+import { TCreateComplaint, createComplaintRequest, createNotificationNewRequest, createNotificationRequest } from "features/complaint";
+import { useGetAccessToken } from "features/complaint/hooks/use-get-access-token";
 import { useToastContext } from "contexts";
 import { useAuthStore } from "stores";
 import dayjs from "dayjs";
@@ -29,6 +30,7 @@ export const CategoryList = (props: TProps) => {
   const { location } = props
 
   const { data } = useGetCategory()
+  const { data: dataAccesToken } = useGetAccessToken()
 
   const auth = useAuthStore((state: any) => state.auth)
   const token = useAuthStore((state: any) => state.token)
@@ -40,7 +42,7 @@ export const CategoryList = (props: TProps) => {
   const [selected, setSelected] = useState<TCategory | null>(null)
 
   const { mutate: mutateFirebase, isLoading: isLoadingFirebase } = useMutation({
-    mutationFn: (params: TNotification) => createNotificationRequest(params),
+    mutationFn: (params: TNotificationNew) => createNotificationNewRequest(params, dataAccesToken?.token),
     onSuccess: async (data) => {
       setIsOpenConfirm(false)
       setIsOpen(true)
@@ -66,15 +68,16 @@ export const CategoryList = (props: TProps) => {
       })
 
       mutateFirebase({
-        to: `/topics/${categoryFind}`,
-        notification: {
-          title: selected?.kategoripelaporan_nama ?? '',
-          body: `Terjadi ${selected?.kategoripelaporan_nama}`,
-          android_channel_id: categoryFind ?? ''
-        },
-        data: {
-          pengguna_nama: auth?.pengguna_nama,
-          id: data.pelaporan_id
+        message: {
+          topic: `${categoryFind}`,
+          notification: {
+            title: selected?.kategoripelaporan_nama ?? '',
+            body: `Terjadi ${selected?.kategoripelaporan_nama}`,
+          },
+          data: {
+            pengguna_nama: auth?.pengguna_nama,
+            id: data.pelaporan_id
+          }
         }
       })
     },
@@ -84,6 +87,7 @@ export const CategoryList = (props: TProps) => {
   })
 
   const onSubmit = async () => {
+
     const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss').split(' ')
     const date = datetime[0]
     const time = datetime[1]

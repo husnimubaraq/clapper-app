@@ -2,7 +2,8 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Device from 'expo-device';
 
-const baseURL = "https://ekentongan.000webhostapp.com/dmiapi"
+// const baseURL = "https://ekentongan.000webhostapp.com/dmiapi"
+const baseURL = "https://simonik.diginetmedia.co.id/ekentongan/dmiapi"
 
 export const axiosInstance = axios.create({
   baseURL,

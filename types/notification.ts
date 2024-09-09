@@ -10,3 +10,17 @@ export type TNotification = {
         id: string
     }
 }
+
+export type TNotificationNew = {
+    message: {
+        topic: string
+        notification: {
+            title: string
+            body: string
+        },
+        data: {
+            pengguna_nama: string
+            id: string
+        }
+    }
+}

@@ -1,5 +1,24 @@
-import { axiosPublicInstance } from 'apis'
-import { TNotification } from 'types'
+import { axiosPublicInstance, axiosInstance } from 'apis'
+import { TNotification, TNotificationNew } from 'types'
+
+export const getAccessTokenRequest = async () => {
+
+    const { data } = await axiosInstance.get('/publik/tokenfcm')
+
+    return data
+}
+
+export const createNotificationNewRequest = async (request: TNotificationNew, token: string) => {
+
+    const { data } = await axiosPublicInstance.post('https://fcm.googleapis.com//v1/projects/clapper-app/messages:send', request, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return data
+}
 
 export const createNotificationRequest = async (request: TNotification) => {
 

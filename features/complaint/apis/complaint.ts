@@ -19,6 +19,8 @@ export const createComplaintRequest = async (request: TCreateComplaint) => {
     body.append("pelaporan_longitude", request.pelaporan_longitude)
     body.append("pelaporan_latitude", request.pelaporan_latitude)
 
+    console.log('body: ', body)
+
     const { data } = await axiosInstance.post('/warga/pelaporan', body)
 
     return data
