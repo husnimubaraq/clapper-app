@@ -17,10 +17,15 @@ export type TNotificationNew = {
         notification: {
             title: string
             body: string
-        },
+        }
         data: {
             pengguna_nama: string
             id: string
+        }
+        android: {
+            notification: {
+                channel_id: string
+            }
         }
     }
 }

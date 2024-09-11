@@ -77,6 +77,11 @@ export const CategoryList = (props: TProps) => {
           data: {
             pengguna_nama: auth?.pengguna_nama,
             id: data.pelaporan_id
+          },
+          android: {
+            notification: {
+              channel_id: `${categoryFind}`,
+            }
           }
         }
       })
